@@ -6,6 +6,7 @@ import {
 
 import IndexPage from "./pages/IndexPage";
 import UploadPage from "./pages/UploadPage";
+import './styles/main.scss'
 
 const App = () => {
   return (

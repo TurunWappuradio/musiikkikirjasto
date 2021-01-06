@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap');
+
+
+@import '_reset';
+
+$colorWhite: #fff;
+$colorOrange: #ee6b60;
+$colorDarkBlue: #003366;
+$colorNotAsDarkBlue: #325b84;
+
+*, all {
+  font-family: Montserrat, sans-serif;
+  box-sizing: border-box;
+  color: $colorWhite;
+  font-weight: 500;
+}
+
+body {
+  font-family: Montserrat, sans-serif;
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: $colorDarkBlue;
+  background: -moz-linear-gradient(top, $colorDarkBlue 0%, 66%, $colorNotAsDarkBlue 100%);
+  background: -webkit-linear-gradient(top, $colorDarkBlue 0%, 66%, $colorNotAsDarkBlue 100%);
+  background: $colorDarkBlue linear-gradient(to bottom, $colorDarkBlue 0%, 66%, $colorNotAsDarkBlue 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$colorDarkBlue, endColorstr=$colorNotAsDarkBlue, GradientType=0 );
+}
+
+h1 {
+  color: $colorOrange;
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+a {
+  color: $colorOrange;
+}
