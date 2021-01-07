@@ -1,0 +1,36 @@
+@import '../../styles/main.scss';
+
+.Box {
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 700px;
+  max-width: 90vw;
+  padding: 10px;
+  margin: 20px 0;
+  text-align: center;
+
+  &-dropzone {
+    cursor: pointer;
+    height: 80px;
+    border: 3px solid $colorWhite;
+    border-radius: .25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    > p {
+      color: $colorOrange;
+    }
+  }
+}
+
+.Dropzone-file {
+  display: flex;
+  align-items: center;
+  margin: 30px;
+
+  > svg {
+    font-size: 2.5rem;
+    fill: $colorTeal;
+    margin-right: 5px;
+  }
+}

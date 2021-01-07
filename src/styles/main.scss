@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap');
 
-
 @import '_reset';
 
 $colorWhite: #fff;
 $colorOrange: #ee6b60;
+$colorTeal: #60a3ee;
 $colorDarkBlue: #003366;
 $colorNotAsDarkBlue: #325b84;
 
@@ -35,7 +35,7 @@ h1 {
   color: $colorOrange;
   font-size: 2rem;
   font-weight: 600;
-  margin: 10px 0;
+  margin: 10px 30px;
 }
 
 a {
