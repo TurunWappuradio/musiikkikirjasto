@@ -1,0 +1,23 @@
+.IndexWrapper {
+    > a {
+        display: flex;
+        justify-content: flex-end;
+        padding: 30px;
+        color: #5bbfbf;
+        font-weight: 600;
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    .IndexContent {
+        width: 900px;
+        max-width: 90vw;
+        line-height: 1.4;
+
+        > img {
+            display: flex;
+            margin: auto;
+        }
+    }
+}
