@@ -1,6 +1,24 @@
 import { Link } from 'react-router-dom';
 import './IndexStyle.scss';
+import Table from '../../components/Table'
+import tracklist from './tracklist.json'
+
 const IndexPage = () => {
+  const tableHeaders = [
+    {
+      Header: "Artisti",
+      accessor: "artist"
+    },
+    {
+      Header: "Albumi",
+      accessor: "album"
+    },
+    {
+      Header: "Kappale",
+      accessor: "title"
+    }
+  ]
+
   return (
     <div className="IndexWrapper" >
       <Link to="/lisaa">Musanlähetyssivulle</Link>
@@ -15,6 +33,7 @@ const IndexPage = () => {
           Lisätietoja Turun Wappuradion musiikkikäytännöistä löydät{' '}
           <a target="_blank" rel="noreferrer" href="https://www.turunwappuradio.com/musiikki">täältä</a>.</p>
       </div>
+      <Table columns={tableHeaders} data={tracklist}></Table>
     </div>
   );
 }
