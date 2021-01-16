@@ -1,6 +1,6 @@
 @import '../../styles/main.scss';
 
-.IndexContent {
+div {
   > img {
     display: flex;
     margin: auto;
@@ -50,4 +50,17 @@
 
 @keyframes spinner {
   to {transform: rotate(360deg);}
+}
+
+h1 {
+  text-align: center;
+}
+
+div.Box {
+  margin: auto;
+  margin-top: 10px;
+}
+
+div#root {
+  margin: auto;
 }
