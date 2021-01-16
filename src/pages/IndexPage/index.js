@@ -5,18 +5,22 @@ import { useEffect, useState } from "react";
 import { getRows } from './tracklist.js';
 
 const IndexPage = () => {
-  const [tracks, setTracks] = useState(getRows(0))
+  const [tracks, setTracks] = useState([]);
+
+  useEffect(() => {
+    setTracks(getRows(0))
+  }, []);
 
   const update = () => {
-    const newTracks = getRows(tracks.length -1)
-    setTracks([...tracks, ...newTracks])
+    const newTracks = getRows(tracks.length);
+    setTracks([...tracks, ...newTracks]);
   }
 
-  //useEffect(()) => {
-    
-  //}
-
   const tableHeaders = [
+    {
+      Header: "Kappale",
+      accessor: "title"
+    },
     {
       Header: "Artisti",
       accessor: "artist"
@@ -24,12 +28,9 @@ const IndexPage = () => {
     {
       Header: "Albumi",
       accessor: "album"
-    },
-    {
-      Header: "Kappale",
-      accessor: "title"
     }
-  ]
+  ];
+
   return (
     <div className="IndexWrapper" >
       <header>
