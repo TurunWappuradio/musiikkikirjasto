@@ -27,9 +27,7 @@ const Table = ({ columns, data, update, children }) => {
       <InfiniteScroll
         dataLength={rows.length}
         next={update}
-        hasMore={true}
-        loader={<h4>Hetkinen...</h4>}
-      >
+        hasMore={true}>
         <table {...getTableProps()}>
           <thead>
             {headerGroups.map(headerGroup => (
@@ -58,6 +56,11 @@ const Table = ({ columns, data, update, children }) => {
             })}
           </tbody>
         </table>
+        {rows.length === 0 && (
+          <p className="Table-nodata">
+            Ei osumia :(
+          </p>
+        )}
       </InfiniteScroll>
     </div>
   );
