@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useTable } from "react-table";
 import InfiniteScroll from "react-infinite-scroll-component";
 import './TableStyle.scss';
@@ -23,7 +22,7 @@ const Table = ({ columns, data, update, children }) => {
   return (
     <div className="TableRoot">
       <div className="TableHeader">
-      {children}
+        {children}
       </div>
       <InfiniteScroll
         dataLength={rows.length}

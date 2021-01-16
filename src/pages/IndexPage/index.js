@@ -1,38 +1,10 @@
 import { Link } from 'react-router-dom';
 import './IndexStyle.scss';
-import Table from '../../components/Table';
-import { useEffect, useState } from "react";
-import { getRows } from './tracklist.js';
+import MusicLibrary from './MusicLibrary';
 
 const IndexPage = () => {
-  const [tracks, setTracks] = useState([]);
-
-  useEffect(() => {
-    setTracks(getRows(0))
-  }, []);
-
-  const update = () => {
-    const newTracks = getRows(tracks.length);
-    setTracks([...tracks, ...newTracks]);
-  }
-
-  const tableHeaders = [
-    {
-      Header: "Kappale",
-      accessor: "title"
-    },
-    {
-      Header: "Artisti",
-      accessor: "artist"
-    },
-    {
-      Header: "Albumi",
-      accessor: "album"
-    }
-  ];
-
   return (
-    <div className="IndexWrapper" >
+    <div className="IndexWrapper">
       <header>
         <Link to="/lisaa">Musanlähetyssivulle</Link>
       </header>
@@ -47,9 +19,7 @@ const IndexPage = () => {
           Lisätietoja Turun Wappuradion musiikkikäytännöistä löydät{' '}
           <a target="_blank" rel="noreferrer" href="https://www.turunwappuradio.com/musiikki">täältä</a>.</p>
       </div>
-      <Table columns={tableHeaders} data={tracks} update={update}>
-        <h2>Testi-teksti</h2>
-      </Table>
+      <MusicLibrary />
     </div>
   );
 }
