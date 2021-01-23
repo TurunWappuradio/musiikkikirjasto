@@ -14,7 +14,7 @@ div#root {
     position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 0;
-    background-color: #002447;
+    background-color: #071d36;
   }
 
   .infinite-scroll-component {
@@ -23,6 +23,10 @@ div#root {
     table {
       border-spacing: 0;
       width: 100%;
+
+      thead {
+        background-color: #071d36;
+      }
 
       tr {
         :last-child {
