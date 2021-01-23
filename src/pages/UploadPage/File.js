@@ -9,7 +9,7 @@ const File = ({ file }) => {
   useEffect(() => uploadFile(file)
       .then(() => setStatus('uploaded'))
       .catch(err => console.log('error', err)),
-    []);
+    [file]);
 
   return (
     <div className="Dropzone-file">

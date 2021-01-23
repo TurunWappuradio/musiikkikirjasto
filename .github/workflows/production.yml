@@ -18,6 +18,8 @@ jobs:
           node-version: '14'
       
       - name: Build
+        env:
+          REACT_APP_UPLOAD_API_URL: ${{ secrets.REACT_APP_UPLOAD_API_URL }}
         run: |
           npm ci
           npm run build
