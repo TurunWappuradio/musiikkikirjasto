@@ -1,16 +1,19 @@
 import Table from '../../components/Table';
 import { useEffect, useState } from "react";
 import { getRows } from './tracklist.js';
+import Input from '../../components/Input';
+import { AiOutlineSearch as Search } from 'react-icons/ai';
 
 const MusicLibrary = () => {
   const [tracks, setTracks] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    setTracks(getRows(0))
-  }, []);
+    setTracks(getRows(0, searchTerm))
+  }, [searchTerm]);
 
   const update = () => {
-    const newTracks = getRows(tracks.length);
+    const newTracks = getRows(tracks.length, searchTerm);
     setTracks([...tracks, ...newTracks]);
   }
 
@@ -31,7 +34,12 @@ const MusicLibrary = () => {
 
   return (
     <Table columns={tableHeaders} data={tracks} update={update}>
-      <h2>Testi-teksti</h2>
+      <Input
+        placeholder="Suodata kappaleita"
+        value={searchTerm}
+        onChange={ev => setSearchTerm(ev.target.value)}>
+        <Search />
+      </Input>
     </Table>
   );
 }
