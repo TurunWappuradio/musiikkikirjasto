@@ -43,6 +43,12 @@ div#root {
         padding: 0.8rem 2rem;
         border-bottom: 1.5px solid rgba($color: #000000, $alpha: 0.2);
         width: 33.3%;
+        @media (max-width: 700px), (max-device-width: 700px) {
+          padding: 1rem;
+          font-size: 0.9rem;
+          margin-left: auto;
+          margin-right: auto;
+        }
       }
     }
   }
