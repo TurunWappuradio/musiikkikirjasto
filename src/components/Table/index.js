@@ -3,22 +3,19 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import './TableStyle.scss';
 
 const Table = ({ columns, data, update, children }) => {
-  // Use the state and functions returned from useTable to build your UI
-
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
-    prepareRow
+    prepareRow,
   } = useTable(
     {
       columns,
       data
-    }
+    },
   );
-
-  // Render the UI for your table
+  
   return (
     <div className="TableRoot">
       <div className="TableHeader">
