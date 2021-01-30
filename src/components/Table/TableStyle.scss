@@ -1,32 +1,51 @@
+@import '../../styles/main.scss';
+
 div#root {
   width: 100%;
 }
 
 .TableRoot {
-  background-color: #002447;
+  background-color: $tableBackgorund;
   margin-top: 80px;
   min-height: 1000px;
 
   .TableHeader {
-    padding: 1rem;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 0;
-    background-color: #071d36;
+    background-color: darken($tableBackgorund, $amount: 4);
+
+    .Input {
+      margin: 20px;
+    }
+
+    .columnMain {
+      background-color: darken($tableBackgorund, $amount: 2);
+      width: 100%;
+
+      .columnNamesBox {
+        display: flex;
+        flex-direction: row;
+
+        .columnNames {
+          color: #ee6b60;
+          text-align: start;
+          padding: 0.8rem 2rem;
+          width: 33.3%;
+        }
+      }
+    }
   }
 
   .infinite-scroll-component {
-    overflow-y: hidden !important;
+    overflow: hidden !important;
 
     table {
       border-spacing: 0;
       width: 100%;
-
-      thead {
-        background-color: #071d36;
-      }
 
       tr {
         :last-child {
@@ -36,13 +55,6 @@ div#root {
         }
       }
 
-      th {
-        color: #ee6b60;
-        text-align: start;
-        padding: 0.8rem 2rem;
-        border-bottom: 3px solid rgba($color: #000000, $alpha: 0.2);
-        width: 33.3%;
-      }
       td {
         padding: 0.8rem 2rem;
         border-bottom: 1.5px solid rgba($color: #000000, $alpha: 0.2);

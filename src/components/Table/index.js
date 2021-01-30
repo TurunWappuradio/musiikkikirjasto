@@ -23,24 +23,23 @@ const Table = ({ columns, data, update, children }) => {
     <div className="TableRoot">
       <div className="TableHeader">
         {children}
+        <div className="columnMain">
+          {headerGroups.map(headerGroup => (
+            <div className="columnNamesBox" {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <div className="columnNames" {...column.getHeaderProps()}>
+                  {column.render("Header")}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
       <InfiniteScroll
         dataLength={rows.length}
         next={update}
         hasMore={true}>
         <table {...getTableProps()}>
-          <thead>
-            {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
-                  <th {...column.getHeaderProps()}>
-                    {column.render("Header")}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-
           <tbody {...getTableBodyProps()}>
             {rows.map((row, i) => {
               prepareRow(row);
