@@ -1,18 +1,13 @@
 @import '../../styles/main.scss';
 
-div {
-  > img {
-    display: flex;
-    margin: auto;
-  }
-}
-
 .Box {
   background-color: rgba(0, 0, 0, 0.2);
-  width: 700px;
+  width: 900px;
   max-width: 90vw;
   padding: 10px;
   margin: 20px 0;
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
   cursor: pointer;
   border-radius: .25rem;
@@ -73,17 +68,4 @@ div {
 
 @keyframes spinner {
   to {transform: rotate(360deg);}
-}
-
-h1 {
-  text-align: center;
-}
-
-div.Box {
-  margin: auto;
-  margin-top: 10px;
-}
-
-div#root {
-  margin: auto;
 }
