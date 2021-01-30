@@ -1,6 +1,6 @@
 @import '../../styles/main.scss';
 
-div#root {
+#root {
   width: 100%;
 }
 
@@ -17,6 +17,7 @@ div#root {
     position: sticky;
     top: 0;
     background-color: darken($tableBackgorund, $amount: 4);
+    margin-top: -0.01px;
 
     .Input {
       margin: 20px;
@@ -35,6 +36,12 @@ div#root {
           text-align: start;
           padding: 0.8rem 2rem;
           width: 33.3%;
+          @media (max-width: 700px), (max-device-width: 700px) {
+            padding: 1rem;
+            font-size: 0.7rem;
+            margin-left: auto;
+            margin-right: auto;
+          }
         }
       }
     }
@@ -46,6 +53,7 @@ div#root {
     table {
       border-spacing: 0;
       width: 100%;
+      table-layout: fixed;
 
       tr {
         :last-child {
@@ -61,7 +69,7 @@ div#root {
         width: 33.3%;
         @media (max-width: 700px), (max-device-width: 700px) {
           padding: 1rem;
-          font-size: 0.9rem;
+          font-size: 0.7rem;
           margin-left: auto;
           margin-right: auto;
         }
