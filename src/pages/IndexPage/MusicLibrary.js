@@ -21,7 +21,6 @@ const MusicLibrary = () => {
     setScrollPos(scrolled);
     const newDirection = scrolled > scrollPos ? "up" : "down";
     setDirection(newDirection);
-    console.log(scrolled, scrollPos, direction);
   }, [scrollPos]);
 
   useEffect(() => {
