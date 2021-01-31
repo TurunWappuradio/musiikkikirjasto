@@ -19,8 +19,11 @@ const uploadFile = async (file) => {
   return filename;
 }
 
-const getMetadata = async (filename) => {
-  const metadataResponse = await fetch(metadataApi, {
+// read and validate song metadata
+const validateSong = async (filename) => {
+  const url = metadataApi + '/validate-song';
+
+  const metadataResponse = await fetch(url, {
     method: 'POST',
     body: JSON.stringify({ filename })
   });
@@ -28,4 +31,4 @@ const getMetadata = async (filename) => {
   return metadataResponse.json();
 }
 
-export { uploadFile, getMetadata };
+export { uploadFile, validateSong };

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { TiNotesOutline as Note, TiDocument as Document } from 'react-icons/ti';
 import { AiOutlineLoading as Loading, AiOutlineCheck as Check } from 'react-icons/ai';
-import { uploadFile, getMetadata } from './handleFiles';
+import { uploadFile, validateSong } from './handleFiles';
 
 
 const File = ({ file }) => {
@@ -12,7 +12,7 @@ const File = ({ file }) => {
     uploadFile(file)
       .then(async (filename) => {
         if (isAudioFile(filename)) {
-          const metadata = await getMetadata(filename);
+          const metadata = await validateSong(filename);
           setMetadata(metadata);
         }
         setStatus('ready');
