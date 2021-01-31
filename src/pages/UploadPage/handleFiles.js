@@ -25,6 +25,9 @@ const validateSong = async (filename) => {
 
   const metadataResponse = await fetch(url, {
     method: 'POST',
+    headers: {
+      Origin: 'https://musiikki.turunwappuradio.com'
+    },
     body: JSON.stringify({ filename })
   });
 
