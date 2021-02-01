@@ -18,8 +18,13 @@
 
   > p {
     color: $colorOrange;
+    font-size: 1.1rem;
     margin: 40px 30px 30px;
   }
+}
+
+.Dropzone {
+  min-height: 300px;
 }
 
 .Dropzone-file {
@@ -64,6 +69,21 @@
 .Dropzone-loading {
   animation: spinner .6s linear infinite;
   fill: $colorTeal !important;
+}
+
+.SubmitControls {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  
+  > * {
+    margin: 0.7em;
+  }
+
+  > .Input {
+    flex: 1;
+  }
 }
 
 @keyframes spinner {

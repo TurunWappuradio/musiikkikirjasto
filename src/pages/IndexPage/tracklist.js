@@ -1,6 +1,15 @@
-import tracklist from './tracklist.json'
+const getSongs = async () => {
+  const res = await fetch(process.env.REACT_APP_METADATA_API_URL, {
+    method: 'POST',
+    body: JSON.stringify({
+      operation: 'get-songs'
+    })
+  })
 
-const getRows = (rowNum, searchTerm) => {
+  return (await res.json()).songs;
+}
+
+const getRows = (tracklist, rowNum, searchTerm) => {
   if (searchTerm === "") return tracklist.slice(rowNum, rowNum + 100);
 
   const s = searchTerm.toLowerCase();
@@ -13,4 +22,4 @@ const getRows = (rowNum, searchTerm) => {
     .slice(rowNum, rowNum + 100);
 }
 
-export { getRows };
+export { getSongs, getRows };

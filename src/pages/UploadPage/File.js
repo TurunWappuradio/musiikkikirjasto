@@ -4,13 +4,14 @@ import { AiOutlineLoading as Loading, AiOutlineCheck as Check } from 'react-icon
 import { uploadFile, validateSong } from './handleFiles';
 
 
-const File = ({ file }) => {
+const File = ({ file, pushS3key }) => {
   const [status, setStatus] = useState('loading');
   const [metadata, setMetadata] = useState({ title: file.name });
 
   useEffect(() =>
     uploadFile(file)
       .then(async (filename) => {
+        pushS3key(filename);
         if (isAudioFile(filename)) {
           const metadata = await validateSong(filename);
           setMetadata(metadata);
@@ -18,7 +19,8 @@ const File = ({ file }) => {
         setStatus('ready');
       })
       .catch(err => console.log('error', err)),
-    [file]);
+    [file, pushS3key]
+  );
 
   return (
     <div className="Dropzone-file">

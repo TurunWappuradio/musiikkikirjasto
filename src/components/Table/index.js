@@ -1,8 +1,9 @@
+import { forwardRef } from 'react';
 import { useTable } from "react-table";
 import InfiniteScroll from "react-infinite-scroll-component";
 import './TableStyle.scss';
 
-const Table = ({ columns, data, update, children }) => {
+const Table = ({ columns, data, update, children, ref }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -17,7 +18,7 @@ const Table = ({ columns, data, update, children }) => {
   );
   
   return (
-    <div className="TableRoot">
+    <div className="TableRoot" ref={ref}>
       <div className="TableHeader">
         {children}
         <div className="columnMain">
@@ -62,4 +63,8 @@ const Table = ({ columns, data, update, children }) => {
   );
 }
 
-export default Table;
+const TableRefForwarded = forwardRef((props, ref) =>
+  <Table ref={ref} {...props} />
+);
+
+export default TableRefForwarded;

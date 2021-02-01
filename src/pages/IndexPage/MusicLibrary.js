@@ -1,11 +1,12 @@
 import Table from '../../components/Table';
 import Button from '../../components/button';
 import { useEffect, useState, useRef, useCallback } from "react";
-import { getRows } from './tracklist.js';
+import { getRows, getSongs } from './tracklist.js';
 import Input from '../../components/Input';
 import { AiOutlineSearch as Search } from 'react-icons/ai';
 
 const MusicLibrary = () => {
+  const [tracklist, setTracklist] = useState([]);
   const [tracks, setTracks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const headerRef = useRef(null);
@@ -13,8 +14,13 @@ const MusicLibrary = () => {
   const [direction, setDirection] = useState("up");
 
   useEffect(() => {
-    setTracks(getRows(0, searchTerm));
-  }, [searchTerm]);
+    const f = async () => setTracklist(await getSongs());
+    f();
+  }, []);
+
+  useEffect(() => {
+    setTracks(getRows(tracklist, 0, searchTerm));
+  }, [tracklist, searchTerm]);
 
   const onScroll = useCallback((ev) => {
     const scrolled = document.scrollingElement.scrollTop;
@@ -30,7 +36,7 @@ const MusicLibrary = () => {
 
 
   const update = () => {
-    const newTracks = getRows(tracks.length, searchTerm);
+    const newTracks = getRows(tracklist, tracks.length, searchTerm);
     setTracks([...tracks, ...newTracks]);
   }
 

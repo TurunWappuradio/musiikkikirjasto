@@ -3,17 +3,19 @@ import { useDropzone } from 'react-dropzone';
 
 import File from './File';
 
-const Dropzone = () => {
+const Dropzone = ({ pushS3key }) => {
   const [files, setFiles] = useState([]);
 
-  const onDrop = acceptedFiles => setFiles([...files, ...acceptedFiles]);
+  const onDrop = acceptedFiles => {
+    setFiles([...files, ...acceptedFiles])
+  };
   
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <div className="Box" {...getRootProps()}>
+    <div className="Box Dropzone" {...getRootProps()}>
       <input {...getInputProps()} />
-      {files.map((file, idx) => <File file={file} key={idx} />)}
+      {files.map((file, idx) => <File file={file} pushS3key={pushS3key} key={idx} />)}
       {
         isDragActive ?
           <p>Pudota tiedostot tähän ...</p> :

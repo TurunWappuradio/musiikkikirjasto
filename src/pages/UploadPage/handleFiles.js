@@ -21,17 +21,40 @@ const uploadFile = async (file) => {
 
 // read and validate song metadata
 const validateSong = async (filename) => {
-  const url = metadataApi + '/validate-song';
-
-  const metadataResponse = await fetch(url, {
+  const res = await fetch(metadataApi, {
     method: 'POST',
-    headers: {
-      Origin: 'https://musiikki.turunwappuradio.com'
-    },
-    body: JSON.stringify({ filename })
+    body: JSON.stringify({
+      operation: 'validate-song',
+      filename
+    })
   });
 
-  return metadataResponse.json();
+  if (res.status !== 200) {
+    return {
+      title: await res.json()
+    }
+  }
+
+  return res.json()
 }
 
-export { uploadFile, validateSong };
+// submit songs 
+const submitSongs = async (filenames, password) => {
+  const res = await fetch(metadataApi, {
+    method: 'POST',
+    body: JSON.stringify({
+      operation: 'submit-songs',
+      filenames,
+      password
+    })
+  });
+
+  if (res.status !== 200) {
+    return res.json();
+  }
+
+  const json = await res.json();
+  return `Albumi ${json.album} lähetetty musiikkikirjastoon.`;
+}
+
+export { uploadFile, validateSong, submitSongs };
