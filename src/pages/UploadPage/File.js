@@ -1,43 +1,19 @@
-import { useState, useEffect } from 'react';
 import { TiNotesOutline as Note, TiDocument as Document } from 'react-icons/ti';
 import { AiOutlineLoading as Loading, AiOutlineCheck as Check } from 'react-icons/ai';
-import { uploadFile, validateSong } from './handleFiles';
 
-
-const File = ({ file, pushS3key }) => {
-  const [status, setStatus] = useState('loading');
-  const [metadata, setMetadata] = useState({ title: file.name });
-
-  useEffect(() =>
-    uploadFile(file)
-      .then(async (filename) => {
-        pushS3key(filename);
-        if (isAudioFile(filename)) {
-          const metadata = await validateSong(filename);
-          setMetadata(metadata);
-        }
-        setStatus('ready');
-      })
-      .catch(err => console.log('error', err)),
-    [file, pushS3key]
-  );
-
+const File = ({ isAudioFile, metadata, isLoading }) => {
   return (
     <div className="Dropzone-file">
-      {isAudioFile(file.name)
+      {isAudioFile
         ? <Note />
         : <Document />}
       <Meta metadata={metadata} />
-      {status === 'loading' 
+      {isLoading
         ? <Loading className="Dropzone-loading" />
         : <Check className="Dropzone-check" />}
     </div>
   );
 }
-
-const isAudioFile = (fname) =>
-  fname.endsWith('.mp3')
-  || fname.endsWith('.flac');
 
 const Meta = ({ metadata }) => (
   <div className="File-metadata">

@@ -40,21 +40,25 @@ const validateSong = async (filename) => {
 
 // submit songs 
 const submitSongs = async (filenames, password) => {
-  const res = await fetch(metadataApi, {
-    method: 'POST',
-    body: JSON.stringify({
-      operation: 'submit-songs',
-      filenames,
-      password
-    })
-  });
-
-  if (res.status !== 200) {
-    return res.json();
+  try {
+    const res = await fetch(metadataApi, {
+      method: 'POST',
+      body: JSON.stringify({
+        operation: 'submit-songs',
+        filenames,
+        password
+      })
+    });
+  
+    if (res.status !== 200) {
+      return res.json();
+    }
+  
+    const json = await res.json();
+    return `Albumi ${json.album} lähetetty musiikkikirjastoon.`;
+  } catch (err) {
+    return err.message;
   }
-
-  const json = await res.json();
-  return `Albumi ${json.album} lähetetty musiikkikirjastoon.`;
 }
 
 export { uploadFile, validateSong, submitSongs };
