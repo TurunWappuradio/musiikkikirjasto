@@ -20,6 +20,7 @@ const Meta = ({ metadata }) => (
     <h1>{metadata.title}</h1>
     <p>{metadata.artist}</p>
     <p>{metadata.album}</p>
+    <p>{metadata.year}</p>
   </div>
 );
 
