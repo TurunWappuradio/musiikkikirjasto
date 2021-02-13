@@ -3,7 +3,7 @@ import { useTable } from "react-table";
 import InfiniteScroll from "react-infinite-scroll-component";
 import './TableStyle.scss';
 
-const Table = ({ columns, data, update, children, ref }) => {
+const Table = ({ columns, data, update, children, ref, hiddenColumns = [] }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -13,7 +13,8 @@ const Table = ({ columns, data, update, children, ref }) => {
   } = useTable(
     {
       columns,
-      data
+      data,
+      initialState: { hiddenColumns }
     },
   );
   

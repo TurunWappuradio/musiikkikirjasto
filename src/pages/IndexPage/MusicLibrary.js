@@ -4,6 +4,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { getRows, getSongs } from './tracklist.js';
 import Input from '../../components/Input';
 import { AiOutlineSearch as Search } from 'react-icons/ai';
+import { isMobile } from 'react-device-detect';
 
 const MusicLibrary = () => {
   const [tracklist, setTracklist] = useState([]);
@@ -52,12 +53,16 @@ const MusicLibrary = () => {
     {
       Header: "Albumi",
       accessor: "album"
+    },
+    {
+      Header: "Kesto",
+      accessor: "length"
     }
   ];
 
   return (
     <div className="tableWrapper" ref={headerRef}>
-      <Table columns={tableHeaders} data={tracks} update={update}>
+      <Table columns={tableHeaders} data={tracks} update={update} hiddenColumns={isMobile ? ["length"] : []}>
         <Input
           placeholder="Suodata kappaleita"
           value={searchTerm}
