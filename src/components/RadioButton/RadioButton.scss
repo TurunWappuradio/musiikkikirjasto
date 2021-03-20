@@ -1,0 +1,47 @@
+@import '../../styles/main.scss';
+
+.RadioButton {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: center;
+  width: 200px;
+  margin: 5px;
+
+  &-checkmark {
+    position: relative;
+    display: block;
+    top: 0;
+    left: 0;
+    height: 28px;
+    width: 28px;
+    margin-right: 20px;
+    background-color: rgba(#fff, 0.1);
+    border-radius: 50%;
+  }
+
+  // create fake checkmark
+  &-checked {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: $colorTeal;
+  }
+
+  // hide the browser's default radio button
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+
+    :checked ~ .RadioButton-checkmark {
+      display: block;
+    }
+  }
+}

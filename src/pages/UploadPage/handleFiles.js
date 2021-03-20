@@ -46,7 +46,11 @@ const submitSongs = async (filenames, password) => {
       body: JSON.stringify({
         operation: 'submit-songs',
         filenames,
-        password
+        password,
+        ripper_name: 'Testi testaaja',
+        ripper_email: 'example@example.com',
+        music_source: 'CD',
+        source_description: 'Rippasin mun fyysisen albumin.'
       })
     });
   
