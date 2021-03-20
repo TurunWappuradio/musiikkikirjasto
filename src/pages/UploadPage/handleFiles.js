@@ -2,11 +2,11 @@ const uploadApiURL = process.env.REACT_APP_UPLOAD_API_URL;
 const metadataApi = process.env.REACT_APP_METADATA_API_URL;
 
 const uploadFile = async (file) => {
-  const prefix = file.name.split('.').pop();
+  const fileExt = file.name.split('.').pop();
 
   const uploadLinkResponse = await fetch(uploadApiURL, {
     method: 'POST',
-    body: JSON.stringify({ prefix })
+    body: JSON.stringify({ fileExt })
   });
 
   const { uploadURL, filename } = await uploadLinkResponse.json();
