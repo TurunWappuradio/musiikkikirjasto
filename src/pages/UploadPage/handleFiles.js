@@ -59,13 +59,16 @@ const submitSongs = async (filenames, ripper_name, ripper_email, music_source, s
     });
   
     if (res.status !== 200) {
-      return res.json();
+      return {
+        "status": "error",
+        "response": await res.json()
+      };
     }
   
-    const json = await res.json();
-    return `Albumi ${json.album} lähetetty musiikkikirjastoon.`;
+    return res.json();
   } catch (err) {
-    return err.message;
+    console.error("Error submitting songs: ", err);
+    return { error: err.message };
   }
 }
 

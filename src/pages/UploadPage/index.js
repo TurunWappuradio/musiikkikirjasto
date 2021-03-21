@@ -8,6 +8,7 @@ import Input from '../../components/Input';
 import RadioButton from '../../components/RadioButton';
 import { submitSongs } from './handleFiles';
 import './UploadPage.scss';
+import Modal from '../../components/Modal/Modal';
 
 const CD_INSTRUCTION = (
   <p>
@@ -28,8 +29,8 @@ const OTHER_INSTRUCTION = (
 
 const UploadPage = () => {
   const [musicSource, setMusicSource] = useState(null);
-  const [status, setStatus] = useState("");
   const [S3keys, setS3keys] = useState([]);
+  const [files, setFiles] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [fileValidationError, setFileValidationError] = useState(null);
 
@@ -37,6 +38,9 @@ const UploadPage = () => {
   const [ripperEmail, setRipperEmail] = useState("");
   const [sourceDescription, setSourceDescription] = useState("");
   const [password, setPassword] = useState("");
+
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [submitResponse, setSubmitResponse] = useState(null);
 
   const handleMusicSourceChange = (ev) => setMusicSource(ev.target.value);
 
@@ -50,18 +54,30 @@ const UploadPage = () => {
 
   const onPasswordChange = ev => setPassword(ev.target.value);
 
-  const onSubmitClick = async () => {
-    setStatus('loading');
-    const status = await submitSongs(S3keys, ripperName, ripperEmail, musicSource, sourceDescription, password);
-    setStatus(status);
-  }
 
   const isSubmitDisabled = ripperName === ""
-    || ripperEmail === ""
-    || password === ""
-    || S3keys.length === 0
-    || isLoading
-    || fileValidationError;
+  || ripperEmail === ""
+  || password === ""
+  || S3keys.length === 0
+  || isLoading
+  || fileValidationError
+  || submitLoading;
+
+  const onSubmitClick = async () => {
+    setSubmitLoading(true);
+    const response = await submitSongs(S3keys, ripperName, ripperEmail, musicSource, sourceDescription, password);
+    setSubmitResponse(response);
+    setSubmitLoading(false);
+  }
+
+  const onCloseModal = () => {
+    setMusicSource(null);
+    setS3keys([]);
+    setFiles({});
+    setFileValidationError(null);
+    setSourceDescription("");
+    setSubmitResponse(null);
+  }
 
   return (
     <>
@@ -89,6 +105,8 @@ const UploadPage = () => {
 
       {musicSource && (
         <Dropzone
+          files={files}
+          setFiles={setFiles}
           pushS3key={pushS3key}
           setIsLoading={setIsLoading}
           fileValidationError={fileValidationError}
@@ -116,14 +134,14 @@ const UploadPage = () => {
               value={password}
               onChange={onPasswordChange}/>
             <Button onClick={onSubmitClick} disabled={isSubmitDisabled}>
-              Lähetä
+              {submitLoading
+                ? <Loading className="Dropzone-loading" />
+                : 'Lähetä'}
             </Button>
           </div>
-          {status === 'loading'
-            ? <Loading className="Dropzone-loading"/>
-            : status}
         </div>
       )}
+      {submitResponse && <Modal response={submitResponse} closeModal={onCloseModal} />}
     </>
   );
 }

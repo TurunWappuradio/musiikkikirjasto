@@ -7,9 +7,7 @@ import { uploadFile, validateSong } from './handleFiles';
 const INVALID_FILES = "Kiellettyjä tiedostotyyppejä.";
 const MISMATCHED_ALBUM = "Kaikki raidat eivät ole samalta albumilta. Syötä korkeintaan yhden levyn tiedostot kerralla.";
 
-const Dropzone = ({ pushS3key, setIsLoading, fileValidationError, setFileValidationError }) => {
-  const [files, setFiles] = useState({});
-
+const Dropzone = ({ files, setFiles, pushS3key, setIsLoading, fileValidationError, setFileValidationError }) => {
   useEffect(() => {
     const isLoading = !!Object.values(files).find(f => f.isLoading);
     setIsLoading(isLoading)
