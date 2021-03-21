@@ -31,6 +31,8 @@ const UploadPage = () => {
   const [status, setStatus] = useState("");
   const [S3keys, setS3keys] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [fileValidationError, setFileValidationError] = useState(null);
+
   const [ripperName, setRipperName] = useState("");
   const [ripperEmail, setRipperEmail] = useState("");
   const [sourceDescription, setSourceDescription] = useState("");
@@ -50,7 +52,7 @@ const UploadPage = () => {
 
   const onSubmitClick = async () => {
     setStatus('loading');
-    const status = await submitSongs(S3keys, password);
+    const status = await submitSongs(S3keys, ripperName, ripperEmail, musicSource, sourceDescription, password);
     setStatus(status);
   }
 
@@ -58,7 +60,8 @@ const UploadPage = () => {
     || ripperEmail === ""
     || password === ""
     || S3keys.length === 0
-    || isLoading;
+    || isLoading
+    || fileValidationError;
 
   return (
     <>
@@ -84,17 +87,37 @@ const UploadPage = () => {
         </div>
       )}
 
-      {musicSource && <Dropzone pushS3key={pushS3key} setIsLoading={setIsLoading} />}
+      {musicSource && (
+        <Dropzone
+          pushS3key={pushS3key}
+          setIsLoading={setIsLoading}
+          fileValidationError={fileValidationError}
+          setFileValidationError={setFileValidationError} />
+      )}
       
       {musicSource && (
         <div className="Box">
           <h2>Lähettäjän tiedot</h2>
           <div className="SubmitControls">
-            <Input placeholder="Nimi" value={ripperName} onChange={onRipperNameChange} />
-            <Input placeholder="Sähköposti" value={ripperEmail} onChange={onRipperEmailChange} />
-            <Input placeholder="Mistä musiikki on hankittu" value={sourceDescription} onChange={onSourceDescriptionChange} />
-            <Input placeholder="Salasana" value={password} onChange={onPasswordChange}/>
-            <Button onClick={onSubmitClick} disabled={isSubmitDisabled}>Lähetä</Button>
+            <Input
+              placeholder="Nimi"
+              value={ripperName}
+              onChange={onRipperNameChange} />
+            <Input
+              placeholder="Sähköposti"
+              value={ripperEmail}
+              onChange={onRipperEmailChange} />
+            <Input
+              placeholder="Mistä musiikki on hankittu"
+              value={sourceDescription}
+              onChange={onSourceDescriptionChange} />
+            <Input
+              placeholder="Salasana"
+              value={password}
+              onChange={onPasswordChange}/>
+            <Button onClick={onSubmitClick} disabled={isSubmitDisabled}>
+              Lähetä
+            </Button>
           </div>
           {status === 'loading'
             ? <Loading className="Dropzone-loading"/>

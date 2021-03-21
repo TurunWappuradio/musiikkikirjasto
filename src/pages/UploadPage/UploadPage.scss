@@ -37,7 +37,7 @@
   justify-content: center;
 
   > p {
-    color: $colorOrange;
+    color: $colorTeal;
     font-size: 1.1rem;
     margin: 40px 30px 30px;
   }
@@ -48,7 +48,7 @@
   align-items: center;
   padding: 20px;
   border-bottom: 1.5px solid rgba(255, 255, 255, 0.9);
-  width: 100%;
+  width: 90%;
   max-width: 500px;
 
   > svg {
@@ -94,6 +94,10 @@
 
 .Dropzone-cross {
   fill: $colorRed !important;
+}
+
+.Dropzone-error {
+  color: $colorRed !important;
 }
 
 .SubmitControls {

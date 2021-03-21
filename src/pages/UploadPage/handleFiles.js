@@ -43,18 +43,18 @@ const validateSong = async (filename) => {
 }
 
 // submit songs 
-const submitSongs = async (filenames, password) => {
+const submitSongs = async (filenames, ripper_name, ripper_email, music_source, source_description, password) => {
   try {
     const res = await fetch(metadataApi, {
       method: 'POST',
       body: JSON.stringify({
         operation: 'submit-songs',
         filenames,
-        password,
-        ripper_name: 'Testi testaaja',
-        ripper_email: 'example@example.com',
-        music_source: 'CD',
-        source_description: 'Rippasin mun fyysisen albumin.'
+        ripper_name,
+        ripper_email,
+        music_source,
+        source_description,
+        password
       })
     });
   

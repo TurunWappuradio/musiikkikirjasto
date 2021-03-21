@@ -4,13 +4,34 @@ import { useDropzone } from 'react-dropzone';
 import File from './File';
 import { uploadFile, validateSong } from './handleFiles';
 
-const Dropzone = ({ pushS3key, setIsLoading }) => {
+const INVALID_FILES = "Kiellettyjä tiedostotyyppejä.";
+const MISMATCHED_ALBUM = "Kaikki raidat eivät ole samalta albumilta. Syötä korkeintaan yhden levyn tiedostot kerralla.";
+
+const Dropzone = ({ pushS3key, setIsLoading, fileValidationError, setFileValidationError }) => {
   const [files, setFiles] = useState({});
 
   useEffect(() => {
     const isLoading = !!Object.values(files).find(f => f.isLoading);
     setIsLoading(isLoading)
   }, [files, setIsLoading]);
+
+  useEffect(() => {
+    // Make sure all files are valid.
+    const isInvalidFiletype = !!Object.values(files)
+      .find(({ isLoading, isValidFile }) => !isLoading && !isValidFile);
+
+    if (isInvalidFiletype) setFileValidationError(INVALID_FILES);
+
+    // make sure all songs are from the same album.
+    const audioFiles = Object.values(files)
+      .filter(f => isAudioFile(f.file.name));
+
+    if (audioFiles.length >= 1 && audioFiles.every(af => !af.isLoading)) {
+      const album = audioFiles[0].metadata.album;
+      const isSameAlbum = audioFiles.every(af => af.metadata && af.metadata.album === album);
+      if (!isSameAlbum) setFileValidationError(MISMATCHED_ALBUM);
+    }
+  }, [files, setFileValidationError]);
 
   const onDrop = acceptedFiles => handleFiles(acceptedFiles, setFiles, pushS3key);
   
@@ -35,6 +56,11 @@ const Dropzone = ({ pushS3key, setIsLoading }) => {
             <p>Pudota tiedostot tähän ...</p> :
             <p>Raahaa ja pudota tiedostot tähän, tai klikkaa valitaksesi tiedostot</p>
         }
+        {fileValidationError && (
+          <p className="Dropzone-error">
+            {fileValidationError}
+          </p>
+        )}
       </div>
     </div>
   );
