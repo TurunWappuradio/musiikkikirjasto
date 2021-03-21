@@ -9,6 +9,10 @@ const uploadFile = async (file) => {
     body: JSON.stringify({ fileExt })
   });
 
+  if (uploadLinkResponse.status !== 200) {
+    return null;
+  }
+
   const { uploadURL, filename } = await uploadLinkResponse.json();
 
   await fetch(uploadURL, {

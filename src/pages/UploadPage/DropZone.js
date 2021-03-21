@@ -17,17 +17,17 @@ const Dropzone = ({ pushS3key, setIsLoading }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <div className="Box">
+    <div className="Box Box-dropzone">
       <h2>Tiedostot</h2>
       <div className="Dropzone" {...getRootProps()}>
         <input {...getInputProps()} />
-        {Object.values(files).map(({ file, metadata, isLoading }) => {
+        {Object.values(files).map(({ file, metadata, isLoading, isValidFile }) => {
           const audioFile = isAudioFile(file.name)
           const meta = !isLoading && audioFile
             ? metadata
             : { title: file.name };
           return (
-            <File isAudioFile={audioFile} metadata={meta} isLoading={isLoading} key={file.name}/>
+            <File isAudioFile={audioFile} metadata={meta} isLoading={isLoading} isValidFile={isValidFile} key={file.name}/>
           )
         })}
         {
@@ -51,17 +51,18 @@ const handleFiles = (files, setFiles, pushS3key) => {
 
   files.forEach(async (file) => {
     const filename = await uploadFile(file);
+    const isValidFile = !!filename;
 
-    if (isAudioFile(filename)) {
+    if (isValidFile && isAudioFile(filename)) {
       const metadata = await validateSong(filename);
       setFiles(prevFiles => ({
         ...prevFiles,
-        [file.name]: { file, metadata, isLoading: false }
+        [file.name]: { file, metadata, isLoading: false, isValidFile }
       }));
     } else {
       setFiles(prevFiles => ({
         ...prevFiles,
-        [file.name]: { file, isLoading: false }
+        [file.name]: { file, isLoading: false, isValidFile }
       }));
     }
 
@@ -71,6 +72,7 @@ const handleFiles = (files, setFiles, pushS3key) => {
 
 const isAudioFile = (fname) =>
   fname.endsWith('.mp3')
-  || fname.endsWith('.flac');
+  || fname.endsWith('.flac')
+  || fname.endsWith('.wav');
 
 export default Dropzone;
