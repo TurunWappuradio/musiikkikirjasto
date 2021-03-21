@@ -9,6 +9,10 @@ const uploadFile = async (file) => {
     body: JSON.stringify({ fileExt })
   });
 
+  if (uploadLinkResponse.status !== 200) {
+    return null;
+  }
+
   const { uploadURL, filename } = await uploadLinkResponse.json();
 
   await fetch(uploadURL, {
@@ -39,13 +43,17 @@ const validateSong = async (filename) => {
 }
 
 // submit songs 
-const submitSongs = async (filenames, password) => {
+const submitSongs = async (filenames, ripper_name, ripper_email, music_source, source_description, password) => {
   try {
     const res = await fetch(metadataApi, {
       method: 'POST',
       body: JSON.stringify({
         operation: 'submit-songs',
         filenames,
+        ripper_name,
+        ripper_email,
+        music_source,
+        source_description,
         password
       })
     });

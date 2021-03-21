@@ -12,7 +12,7 @@ const Header = ({ title }) => (
     <div className="imgContainer">
       <img src="leima.svg" alt="Turun Wappuradio" width="300" height="300"/>
     </div>
-    <div className="Container">
+    <div className="HeaderContainer">
       <h1>{title}</h1>
     </div>  
   </>
