@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import File from './File';
