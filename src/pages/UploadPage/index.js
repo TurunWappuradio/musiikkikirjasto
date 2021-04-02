@@ -54,14 +54,13 @@ const UploadPage = () => {
 
   const onPasswordChange = ev => setPassword(ev.target.value);
 
-
   const isSubmitDisabled = ripperName === ""
-  || ripperEmail === ""
-  || password === ""
-  || S3keys.length === 0
-  || isLoading
-  || fileValidationError
-  || submitLoading;
+    || ripperEmail === ""
+    || password === ""
+    || S3keys.length === 0
+    || isLoading
+    || fileValidationError
+    || submitLoading;
 
   const onSubmitClick = async () => {
     setSubmitLoading(true);
