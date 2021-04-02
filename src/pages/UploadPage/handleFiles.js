@@ -72,4 +72,20 @@ const submitSongs = async (filenames, ripper_name, ripper_email, music_source, s
   }
 }
 
-export { uploadFile, validateSong, submitSongs };
+// submit multiple discs at once
+const professionalSubmitSongs = async (discs, ripper_name, ripper_email, music_source, source_description, password) => {
+  const discPromises = discs.map(async ({ files }) => {
+    // upload to S3
+    const filenamesPromise = Object.values(files)
+      .map(async (file) => await uploadFile(file.file));
+
+    const filenames = await Promise.all(filenamesPromise);
+
+    // call submit song
+    return submitSongs(filenames, ripper_name, ripper_email, music_source, source_description, password)
+  });
+
+  return Promise.all(discPromises);
+}
+
+export { uploadFile, validateSong, submitSongs, professionalSubmitSongs };
