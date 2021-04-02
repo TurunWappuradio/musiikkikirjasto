@@ -78,8 +78,6 @@ const ProfessionalPage = () => {
     setSubmitResponse(null);
   }
 
-  console.log(submitResponse)
-
   return (
     <>
       <Header title="Ammattilaisnäkymä 😎" />
