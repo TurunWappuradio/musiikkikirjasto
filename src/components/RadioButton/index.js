@@ -6,7 +6,7 @@ const RadioButton = ({ name, text, value, checked }) => (
     <span className="RadioButton-checkmark">
       {checked && <span className="RadioButton-checked" />}
     </span>
-    <input type="radio" name={name} value={value} />
+    <input type="radio" name={name} value={value} checked={checked} />
   </label>
 );
 
