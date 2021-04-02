@@ -7,6 +7,7 @@ import Button from '../../components/button';
 import Dropzone from './DropZone';
 import Input from '../../components/Input';
 import { professionalSubmitSongs } from './handleFiles';
+import ProfessionalModal from '../../components/Modal/ProfessionalModal';
 
 const ProfessionalPage = () => {
   const [musicSource, setMusicSource] = useState(null);
@@ -69,6 +70,16 @@ const ProfessionalPage = () => {
     setSubmitLoading(false);
   }
 
+  const onCloseModal = () => {
+    setMusicSource(null);
+    setDiscs([]);
+    setFileValidationError(null);
+    setSourceDescription("");
+    setSubmitResponse(null);
+  }
+
+  console.log(submitResponse)
+
   return (
     <>
       <Header title="Ammattilaisnäkymä 😎" />
@@ -121,6 +132,7 @@ const ProfessionalPage = () => {
           </Button>
         </div>
       </div>
+      {submitResponse && <ProfessionalModal responses={submitResponse} closeModal={onCloseModal} />}
     </>
   );
 }
