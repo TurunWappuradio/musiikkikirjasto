@@ -1,0 +1,47 @@
+@import '../../styles/main.scss';
+
+$margin: 30px;
+
+.Modal {
+  position: fixed;
+  top: $margin;
+  left: $margin;
+  right: $margin;
+  bottom: $margin;
+  padding: 30px;
+  background-color: #001f3d;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  ul {
+    list-style: disc;
+    padding: 20px;
+
+    > li {
+      line-height: 1.4;
+    }
+  }    
+
+  > * {
+    margin: 10px;
+  }
+
+  > h1, div, p, ul {
+    width: 600px;
+    max-width: 90%;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    line-height: 1.2;
+    color: $colorTeal;
+    margin-bottom: 10px;
+  }
+
+  > p {
+    line-height: 1.4;
+  }
+}

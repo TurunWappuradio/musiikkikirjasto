@@ -1,16 +1,16 @@
 import { TiNotesOutline as Note, TiDocument as Document } from 'react-icons/ti';
-import { AiOutlineLoading as Loading, AiOutlineCheck as Check } from 'react-icons/ai';
+import { AiOutlineLoading as Loading, AiOutlineCheck as Check, AiOutlineClose as Cross } from 'react-icons/ai';
 
-const File = ({ isAudioFile, metadata, isLoading }) => {
+const File = ({ isAudioFile, metadata, isLoading, isValidFile }) => {
   return (
     <div className="Dropzone-file">
       {isAudioFile
         ? <Note />
         : <Document />}
       <Meta metadata={metadata} />
-      {isLoading
-        ? <Loading className="Dropzone-loading" />
-        : <Check className="Dropzone-check" />}
+      {isLoading && <Loading className="Dropzone-loading" />}
+      {!isLoading && isValidFile && <Check className="Dropzone-check" />}
+      {!isLoading && !isValidFile && <Cross className="Dropzone-cross" />}
     </div>
   );
 }

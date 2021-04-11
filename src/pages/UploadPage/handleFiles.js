@@ -2,12 +2,16 @@ const uploadApiURL = process.env.REACT_APP_UPLOAD_API_URL;
 const metadataApi = process.env.REACT_APP_METADATA_API_URL;
 
 const uploadFile = async (file) => {
-  const prefix = file.name.split('.').pop();
+  const fileExt = file.name.split('.').pop();
 
   const uploadLinkResponse = await fetch(uploadApiURL, {
     method: 'POST',
-    body: JSON.stringify({ prefix })
+    body: JSON.stringify({ fileExt })
   });
+
+  if (uploadLinkResponse.status !== 200) {
+    return null;
+  }
 
   const { uploadURL, filename } = await uploadLinkResponse.json();
 
@@ -39,26 +43,50 @@ const validateSong = async (filename) => {
 }
 
 // submit songs 
-const submitSongs = async (filenames, password) => {
+const submitSongs = async (filenames, ripper_name, ripper_email, music_source, source_description, message, password) => {
   try {
     const res = await fetch(metadataApi, {
       method: 'POST',
       body: JSON.stringify({
         operation: 'submit-songs',
         filenames,
+        ripper_name,
+        ripper_email,
+        music_source,
+        source_description,
+        message,
         password
       })
     });
   
     if (res.status !== 200) {
-      return res.json();
+      return {
+        "status": "error",
+        "response": await res.json()
+      };
     }
   
-    const json = await res.json();
-    return `Albumi ${json.album} lähetetty musiikkikirjastoon.`;
+    return res.json();
   } catch (err) {
-    return err.message;
+    console.error("Error submitting songs: ", err);
+    return { error: err.message };
   }
 }
 
-export { uploadFile, validateSong, submitSongs };
+// submit multiple discs at once
+const professionalSubmitSongs = async (discs, ripper_name, ripper_email, music_source, source_description, message, password) => {
+  const discPromises = discs.map(async ({ files }) => {
+    // upload to S3
+    const filenamesPromise = Object.values(files)
+      .map(async (file) => await uploadFile(file.file));
+
+    const filenames = await Promise.all(filenamesPromise);
+
+    // call submit song
+    return submitSongs(filenames, ripper_name, ripper_email, music_source, source_description, message, password)
+  });
+
+  return Promise.all(discPromises);
+}
+
+export { uploadFile, validateSong, submitSongs, professionalSubmitSongs };
