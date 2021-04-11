@@ -1,12 +1,9 @@
 const getSongs = async () => {
-  const res = await fetch(process.env.REACT_APP_METADATA_API_URL, {
-    method: 'POST',
-    body: JSON.stringify({
-      operation: 'get-songs'
-    })
+  const res = await fetch(process.env.REACT_APP_TRACKLIST_JSON_URL, {
+    method: 'GET',
   })
 
-  return (await res.json()).songs;
+  return (await res.json());
 }
 
 const getRows = (tracklist, rowNum, searchTerm) => {

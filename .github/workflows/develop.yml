@@ -21,6 +21,7 @@ jobs:
         env:
           REACT_APP_UPLOAD_API_URL: ${{ secrets.REACT_APP_UPLOAD_API_URL_TEST }}
           REACT_APP_METADATA_API_URL: ${{ secrets.REACT_APP_METADATA_API_URL_TEST }}
+          REACT_APP_TRACKLIST_JSON_URL: ${{ secrets.REACT_APP_TRACKLIST_JSON_URL_TEST }}
         run: |
           npm ci
           npm run build
