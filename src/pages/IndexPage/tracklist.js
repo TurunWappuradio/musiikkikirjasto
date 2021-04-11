@@ -1,9 +1,6 @@
 const getSongs = async () => {
   const res = await fetch(process.env.REACT_APP_METADATA_API_URL, {
-    method: 'POST',
-    body: JSON.stringify({
-      operation: 'get-songs'
-    })
+    method: 'GET'
   })
 
   return (await res.json()).songs;
