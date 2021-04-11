@@ -37,6 +37,7 @@ const UploadPage = () => {
   const [ripperName, setRipperName] = useState("");
   const [ripperEmail, setRipperEmail] = useState("");
   const [sourceDescription, setSourceDescription] = useState("");
+  const [message, setMessage] = useState("");
   const [password, setPassword] = useState("");
 
   const [submitLoading, setSubmitLoading] = useState(false);
@@ -52,7 +53,9 @@ const UploadPage = () => {
 
   const onSourceDescriptionChange = (ev) => setSourceDescription(ev.target.value);
 
-  const onPasswordChange = ev => setPassword(ev.target.value);
+  const onMessageChange = (ev) => setMessage(ev.target.value);
+
+  const onPasswordChange = (ev) => setPassword(ev.target.value);
 
   const isSubmitDisabled = ripperName === ""
     || ripperEmail === ""
@@ -64,7 +67,7 @@ const UploadPage = () => {
 
   const onSubmitClick = async () => {
     setSubmitLoading(true);
-    const response = await submitSongs(S3keys, ripperName, ripperEmail, musicSource, sourceDescription, password);
+    const response = await submitSongs(S3keys, ripperName, ripperEmail, musicSource, sourceDescription, message, password);
     setSubmitResponse(response);
     setSubmitLoading(false);
   }
@@ -128,6 +131,10 @@ const UploadPage = () => {
               placeholder="Mistä musiikki on hankittu"
               value={sourceDescription}
               onChange={onSourceDescriptionChange} />
+            <Input
+              placeholder="Terveiset toimitukselle"
+              value={message}
+              onChange={onMessageChange} />
             <Input
               placeholder="Salasana"
               value={password}

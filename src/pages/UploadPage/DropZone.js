@@ -6,6 +6,7 @@ import { uploadFile, validateSong } from './handleFiles';
 
 const INVALID_FILES = "Kiellettyjä tiedostotyyppejä.";
 const MISMATCHED_ALBUM = "Kaikki raidat eivät ole samalta albumilta. Syötä korkeintaan yhden levyn tiedostot kerralla.";
+const MISSING_FILES = "Lähetys vaatii vähintään yhden audiotiedoston ja yhden todistetiedoston.";
 
 const Dropzone = ({ files, setFiles, pushS3key, setIsLoading, fileValidationError, setFileValidationError,
                     isProfessional, addFiles }) => {
@@ -15,6 +16,7 @@ const Dropzone = ({ files, setFiles, pushS3key, setIsLoading, fileValidationErro
   }, [files, setIsLoading]);
 
   useEffect(() => {
+    setFileValidationError(null);
     // Make sure all files are valid.
     const isInvalidFiletype = !!Object.values(files)
       .find(({ isLoading, isValidFile }) => !isLoading && !isValidFile);
@@ -30,6 +32,10 @@ const Dropzone = ({ files, setFiles, pushS3key, setIsLoading, fileValidationErro
       const isSameAlbum = audioFiles.every(af => af.metadata && af.metadata.album === album);
       if (!isSameAlbum) setFileValidationError(MISMATCHED_ALBUM);
     }
+
+    // Make sure there's atleast one audiofile and one non-audiofile.
+    const isNonAudiofile = Object.values(files).find(f => !isAudioFile(f.file.name));
+    if (Object.keys(files).length > 0 && (audioFiles.length === 0 || !isNonAudiofile)) setFileValidationError(MISSING_FILES);
   }, [files, setFileValidationError]);
 
   const onDrop = isProfessional
