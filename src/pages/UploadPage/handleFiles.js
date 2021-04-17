@@ -43,7 +43,7 @@ const validateSong = async (filename) => {
 }
 
 // submit songs 
-const submitSongs = async (filenames, ripper_name, ripper_email, music_source, source_description, message, password) => {
+const submitSongs = async (filenames, ripper_name, ripper_email, music_source, source_description, message) => {
   try {
     const res = await fetch(metadataApi, {
       method: 'POST',
@@ -54,8 +54,7 @@ const submitSongs = async (filenames, ripper_name, ripper_email, music_source, s
         ripper_email,
         music_source,
         source_description,
-        message,
-        password
+        message
       })
     });
   
@@ -74,7 +73,7 @@ const submitSongs = async (filenames, ripper_name, ripper_email, music_source, s
 }
 
 // submit multiple discs at once
-const professionalSubmitSongs = async (discs, ripper_name, ripper_email, music_source, source_description, message, password) => {
+const professionalSubmitSongs = async (discs, ripper_name, ripper_email, music_source, source_description, message) => {
   const discPromises = discs.map(async ({ files }) => {
     // upload to S3
     const filenamesPromise = Object.values(files)
@@ -83,7 +82,7 @@ const professionalSubmitSongs = async (discs, ripper_name, ripper_email, music_s
     const filenames = await Promise.all(filenamesPromise);
 
     // call submit song
-    return submitSongs(filenames, ripper_name, ripper_email, music_source, source_description, message, password)
+    return submitSongs(filenames, ripper_name, ripper_email, music_source, source_description, message)
   });
 
   return Promise.all(discPromises);

@@ -38,7 +38,6 @@ const UploadPage = () => {
   const [ripperEmail, setRipperEmail] = useState("");
   const [sourceDescription, setSourceDescription] = useState("");
   const [message, setMessage] = useState("");
-  const [password, setPassword] = useState("");
 
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitResponse, setSubmitResponse] = useState(null);
@@ -55,11 +54,9 @@ const UploadPage = () => {
 
   const onMessageChange = (ev) => setMessage(ev.target.value);
 
-  const onPasswordChange = (ev) => setPassword(ev.target.value);
-
   const isSubmitDisabled = ripperName === ""
     || ripperEmail === ""
-    || password === ""
+    || sourceDescription === ""
     || S3keys.length === 0
     || isLoading
     || fileValidationError
@@ -67,7 +64,7 @@ const UploadPage = () => {
 
   const onSubmitClick = async () => {
     setSubmitLoading(true);
-    const response = await submitSongs(S3keys, ripperName, ripperEmail, musicSource, sourceDescription, message, password);
+    const response = await submitSongs(S3keys, ripperName, ripperEmail, musicSource, sourceDescription, message);
     setSubmitResponse(response);
     setSubmitLoading(false);
   }
@@ -135,10 +132,6 @@ const UploadPage = () => {
               placeholder="Terveiset toimitukselle"
               value={message}
               onChange={onMessageChange} />
-            <Input
-              placeholder="Salasana"
-              value={password}
-              onChange={onPasswordChange}/>
             <Button onClick={onSubmitClick} disabled={isSubmitDisabled}>
               {submitLoading
                 ? <Loading className="Dropzone-loading" />
