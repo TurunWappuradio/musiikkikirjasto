@@ -1,9 +1,12 @@
+//import tracklist from './tracklist.json';
+
 const getSongs = async () => {
   const res = await fetch(process.env.REACT_APP_TRACKLIST_JSON_URL, {
     method: 'GET',
   })
 
-  return (await res.json());
+  return (await res.json())
+    .filter(t => t.title);
 }
 
 const getRows = (tracklist, rowNum, searchTerm) => {

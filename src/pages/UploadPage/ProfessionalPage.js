@@ -19,7 +19,6 @@ const ProfessionalPage = () => {
   const [ripperEmail, setRipperEmail] = useState("");
   const [sourceDescription, setSourceDescription] = useState("");
   const [message, setMessage] = useState("");
-  const [password, setPassword] = useState("");
 
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitResponse, setSubmitResponse] = useState(null);
@@ -56,19 +55,17 @@ const ProfessionalPage = () => {
 
   const onMessageChange = (ev) => setMessage(ev.target.value);
 
-  const onPasswordChange = ev => setPassword(ev.target.value);
-
   const isSubmitDisabled = !musicSource
     || ripperName === ""
     || ripperEmail === ""
-    || password === ""
+    || sourceDescription === ""
     || isLoading
     || fileValidationError
     || submitLoading;
 
   const onSubmitClick = async () => {
     setSubmitLoading(true);
-    const response = await professionalSubmitSongs(discs, ripperName, ripperEmail, musicSource, sourceDescription, message, password);
+    const response = await professionalSubmitSongs(discs, ripperName, ripperEmail, musicSource, sourceDescription, message);
     setSubmitResponse(response);
     setSubmitLoading(false);
   }
@@ -126,10 +123,6 @@ const ProfessionalPage = () => {
             placeholder="Terveiset toimitukselle"
             value={message}
             onChange={onMessageChange} />
-          <Input
-            placeholder="Salasana"
-            value={password}
-            onChange={onPasswordChange}/>
           <Button onClick={onSubmitClick} disabled={isSubmitDisabled}>
             {submitLoading
               ? <Loading className="Dropzone-loading" />
