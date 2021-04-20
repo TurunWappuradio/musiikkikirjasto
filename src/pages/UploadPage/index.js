@@ -81,13 +81,6 @@ const UploadPage = () => {
   return (
     <>
       <Header title="Lähetä musiikkia" />
-      <div className="IndexContent">
-        <p>
-          Musiikin lähetys on tällä hetkellä vain Toimituksen sisäisessä testauskäytössä.
-          Malta vielä hetki, ominaisuus julkaistaan myös juontajille myöhemmin keväällä.
-          Wappuun on vielä valitettavasti hetki aikaa.
-        </p>
-      </div>
 
       <div className="Box" onChange={handleMusicSourceChange}>
         <h2>Musiikin lähde</h2>
