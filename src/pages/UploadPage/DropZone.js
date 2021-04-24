@@ -106,6 +106,7 @@ const handleFiles = (files, setFiles, pushS3key) => {
 const isAudioFile = (fname) =>
   fname.endsWith('.mp3')
   || fname.endsWith('.flac')
-  || fname.endsWith('.wav');
+  || fname.endsWith('.wav')
+  || fname.endsWith('.m4a');
 
 export default Dropzone;
