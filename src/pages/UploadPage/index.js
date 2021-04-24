@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AiOutlineLoading as Loading } from 'react-icons/ai';
 
 import Dropzone from './DropZone';
@@ -6,7 +6,7 @@ import Button from '../../components/button';
 import Header from '../../components/Header';
 import Input from '../../components/Input';
 import RadioButton from '../../components/RadioButton';
-import { submitSongs } from './handleFiles';
+import { ping, submitSongs } from './handleFiles';
 import './UploadPage.scss';
 import Modal from '../../components/Modal/Modal';
 
@@ -41,6 +41,9 @@ const UploadPage = () => {
 
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitResponse, setSubmitResponse] = useState(null);
+
+  // Wake up the backend on page load.
+  useEffect(() => ping(), []);
 
   const handleMusicSourceChange = (ev) => setMusicSource(ev.target.value);
 

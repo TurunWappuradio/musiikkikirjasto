@@ -1,6 +1,13 @@
 const uploadApiURL = process.env.REACT_APP_UPLOAD_API_URL;
 const metadataApi = process.env.REACT_APP_METADATA_API_URL;
 
+const ping = () => {
+  fetch(metadataApi, {
+    method: 'POST',
+    body: JSON.stringify({ operation: 'ping' })
+  });
+}
+
 const uploadFile = async (file) => {
   const fileExt = file.name.split('.').pop();
 
@@ -88,4 +95,4 @@ const professionalSubmitSongs = async (discs, ripper_name, ripper_email, music_s
   return Promise.all(discPromises);
 }
 
-export { uploadFile, validateSong, submitSongs, professionalSubmitSongs };
+export { ping, uploadFile, validateSong, submitSongs, professionalSubmitSongs };
