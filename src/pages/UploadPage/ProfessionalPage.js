@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AiOutlineLoading as Loading } from 'react-icons/ai';
 
 import Header from '../../components/Header';
@@ -6,7 +6,7 @@ import RadioButton from '../../components/RadioButton';
 import Button from '../../components/button';
 import Dropzone from './DropZone';
 import Input from '../../components/Input';
-import { professionalSubmitSongs } from './handleFiles';
+import { ping, professionalSubmitSongs } from './handleFiles';
 import ProfessionalModal from '../../components/Modal/ProfessionalModal';
 
 const ProfessionalPage = () => {
@@ -22,6 +22,9 @@ const ProfessionalPage = () => {
 
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitResponse, setSubmitResponse] = useState(null);
+
+  // Wake up the backend on page load.
+  useEffect(() => ping(), []);
 
   const handleMusicSourceChange = (ev) => setMusicSource(ev.target.value);
   
