@@ -1,19 +1,21 @@
-const uploadApiURL = process.env.REACT_APP_UPLOAD_API_URL;
-const metadataApi = process.env.REACT_APP_METADATA_API_URL;
+const LAMBDA_URL = process.env.REACT_APP_MUSIC_LAMBDA_URL;
 
 const ping = () => {
-  fetch(metadataApi, {
+  fetch(LAMBDA_URL, {
     method: 'POST',
     body: JSON.stringify({ operation: 'ping' })
   });
 }
 
 const uploadFile = async (file) => {
-  const fileExt = file.name.split('.').pop();
+  const file_ext = file.name.split('.').pop();
 
-  const uploadLinkResponse = await fetch(uploadApiURL, {
+  const uploadLinkResponse = await fetch(LAMBDA_URL, {
     method: 'POST',
-    body: JSON.stringify({ fileExt })
+    body: JSON.stringify({
+      operation: 'get-upload-link',
+      file_ext
+    })
   });
 
   if (uploadLinkResponse.status !== 200) {
@@ -32,7 +34,7 @@ const uploadFile = async (file) => {
 
 // read and validate song metadata
 const validateSong = async (filename) => {
-  const res = await fetch(metadataApi, {
+  const res = await fetch(LAMBDA_URL, {
     method: 'POST',
     body: JSON.stringify({
       operation: 'validate-song',
@@ -52,7 +54,7 @@ const validateSong = async (filename) => {
 // submit songs 
 const submitSongs = async (filenames, ripper_name, ripper_email, music_source, source_description, message) => {
   try {
-    const res = await fetch(metadataApi, {
+    const res = await fetch(LAMBDA_URL, {
       method: 'POST',
       body: JSON.stringify({
         operation: 'submit-songs',
