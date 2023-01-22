@@ -19,8 +19,7 @@ jobs:
       
       - name: Build
         env:
-          REACT_APP_UPLOAD_API_URL: ${{ secrets.REACT_APP_UPLOAD_API_URL }}
-          REACT_APP_METADATA_API_URL: ${{ secrets.REACT_APP_METADATA_API_URL }}
+          REACT_APP_MUSIC_LAMBDA_URL: ${{ secrets.REACT_APP_MUSIC_LAMBDA_URL }}
           REACT_APP_TRACKLIST_JSON_URL: ${{ secrets.REACT_APP_TRACKLIST_JSON_URL }}
         run: |
           npm ci
