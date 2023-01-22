@@ -41,7 +41,7 @@ const Dropzone = ({ files, setFiles, pushS3key, setIsLoading, fileValidationErro
   const onDrop = isProfessional
     ? addFiles
     : acceptedFiles => handleFiles(acceptedFiles, setFiles, pushS3key);
-  
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
