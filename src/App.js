@@ -6,6 +6,7 @@ import {
 
 import IndexPage from "./pages/IndexPage";
 import UploadPage from "./pages/UploadPage";
+import ControlPage from "./pages/ControlPage";
 import ProfessionalPage from "./pages/UploadPage/ProfessionalPage";
 import './styles/main.scss'
 
@@ -22,6 +23,9 @@ const App = () => {
           </Route>
           <Route path="/ammattilainen">
             <ProfessionalPage />
+          </Route>
+          <Route path="/hallinta">
+            <ControlPage />
           </Route>
         </Switch>
       </Router>
