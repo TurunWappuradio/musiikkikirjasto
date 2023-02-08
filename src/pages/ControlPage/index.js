@@ -1,6 +1,9 @@
 import './ControlStyle.scss'
 import Header from '../../components/Header';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import axios from 'axios'
+
+const LAMBDA_URL = process.env.REACT_APP_MUSIC_LAMBDA_URL;
 
 const Songs = (props) => {
   return (
@@ -16,9 +19,19 @@ const Songs = (props) => {
   )
 }
 
-
 const ControlPage = () => {
-  const songs = [
+  const [songs, setSongs] = useState([])
+
+  useEffect(() =>{
+    axios.post(LAMBDA_URL,
+      {
+        operation: "admin/get-songs",
+        password: "salaisuus"
+      })
+      .then(response => console.log(response))
+  }, [])
+
+  /*const songs = [
     {
       artist: 'Minä',
       title: 'Otsikko',
@@ -39,6 +52,7 @@ const ControlPage = () => {
       length: '6.69'
     }
   ]
+  */
   return (
     <>
       <Header title='Hallintanäkymä' />
@@ -68,5 +82,4 @@ const ControlPage = () => {
     </>
   )
 }
-
 export default ControlPage;
