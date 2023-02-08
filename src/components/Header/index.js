@@ -7,6 +7,7 @@ const Header = ({ title }) => (
       <ul>
         <Link to="/">Musiikkikirjasto</Link>
         <Link to="/lisaa">Musiikin lähettäminen</Link>
+        <Link to="/hallinta">Hallintanäkymä</Link>
       </ul>
     </header>
     <div className="imgContainer">
