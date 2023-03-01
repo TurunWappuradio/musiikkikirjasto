@@ -1,58 +1,65 @@
 import './ControlStyle.scss'
 import Header from '../../components/Header';
 import React, {useEffect, useState} from 'react';
-import axios from 'axios'
+import axios from 'axios';
+import Table from '../../components/Table'
+import { isMobile } from 'react-device-detect';
+import tracklist from '../IndexPage/tracklist.json'
 
 const LAMBDA_URL = process.env.REACT_APP_MUSIC_LAMBDA_URL;
 
-const Songs = (props) => {
-  return (
-    <tbody>
-      <tr>
-        <td>{props.artist}</td>
-        <td>{props.title}</td>
-        <td>{props.album}</td>
-        <td>{props.length}</td>
-        <td><button>lataa</button> <button>poista</button></td>
-      </tr>
-    </tbody>
-  )
-}
-
 const ControlPage = () => {
+
+  const [songList, setSongList] = useState(tracklist)
   const [songs, setSongs] = useState([])
 
-  useEffect(() =>{
-    axios.post(LAMBDA_URL,
-      {
-        operation: "admin/get-songs",
-        password: "salaisuus"
-      })
-      .then(response => console.log(response))
+  const update = () => {
+    const newSongs = getRows(songList, songs.length);
+    setSongs([...songs, ...newSongs]);
+  }
+
+  const getRows = (songList, rowNum) => {
+    return songList.slice(rowNum, rowNum + 100);
+  }
+
+  useEffect(() => {
+    setSongs(getRows(songList, 0));
+  }, [songList]);
+
+ /* useEffect(() => {
+    axios({
+      method: 'post',
+      url: LAMBDA_URL,
+      data: {
+        operation: 'admin/get-songs',
+        password: 'salaisuus'
+      }
+    })
+    .then(response => setSongs(response.data.songs))
+  
   }, [])
+*/
+  console.log(songList)
 
-  /*const songs = [
+  const tableHeaders = [
     {
-      artist: 'Minä',
-      title: 'Otsikko',
-      album: 'Kokoelma',
-      length: '6:60'
+      Header: "Kappale",
+      accessor: "title"
     },
     {
-      artist: 'Sinä',
-      title: 'Titteli',
-      album: 'Bangeri',
-      length: '4:20'
-
+      Header: "Artisti",
+      accessor: "artist"
     },
     {
-      artist: 'Yhä minä',
-      title: 'Kovakoodattua kuraa',
-      album: 'Joo totanoin',
-      length: '6.69'
+      Header: "Albumi",
+      accessor: "album"
+    },
+    {
+      Header: "Kesto",
+      accessor: "length"
     }
-  ]
-  */
+
+  ];
   return (
     <>
       <Header title='Hallintanäkymä' />
@@ -60,24 +67,8 @@ const ControlPage = () => {
         <p>Tervetuloa hallintanäkymään :P</p>
       </div>
       <div>
-        <table>
-          <tbody>
-            <tr>
-              <th>Artist</th>
-              <th>Title</th>
-              <th>Album</th>
-              <th>length</th>
-            </tr>
-          </tbody>
-          {songs.map(s => (
-            <Songs
-              key={s.title}
-              artist={s.artist}
-              title={s.title}
-              album={s.album}
-              length={s.length} />
-          ))}
-        </table>
+      <Table columns={tableHeaders} data={songs} update={update} hiddenColumns={isMobile ? ["length"] : []}>
+      </Table>
       </div>
     </>
   )
