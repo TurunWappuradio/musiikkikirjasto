@@ -13,17 +13,19 @@ import Modal from '../../components/Modal/Modal';
 const CD_INSTRUCTION = (
   <p>
     Fyysiseltä CD-levyltä ripattu musiikki on aina luvallista radiotoistoon.
-    Ohjeet rippaamiseen löydät <a href="https://turunwappuradio.com/windowsrippaus">täältä</a>.
-    Varmistathan että kaikki raidat ovat onnistuneesti rippaantuneet, ja että lähetät musiikkitiedostojen
-    lisäksi myös kaikki muut rippauksessa syntyneet tiedostot.
+    Ohjeet rippaamiseen löydät{' '}
+    <a href="https://turunwappuradio.com/windowsrippaus">täältä</a>.
+    Varmistathan että kaikki raidat ovat onnistuneesti rippaantuneet, ja että
+    lähetät musiikkitiedostojen lisäksi myös kaikki muut rippauksessa syntyneet
+    tiedostot.
   </p>
 );
 
 const OTHER_INSTRUCTION = (
   <p>
-    Muusta lähteestä hankitussa musiikissa täytyy olla mukana todiste lähteen laillisuudesta,
-    esimerkiksi kuitti tai artistin lupatosite. Varmistathan että raitojen lisäksi lähetät myös
-    todisteen lähteen laillisuudesta.
+    Muusta lähteestä hankitussa musiikissa täytyy olla mukana todiste lähteen
+    laillisuudesta, esimerkiksi kuitti tai artistin lupatosite. Varmistathan
+    että raitojen lisäksi lähetät myös todisteen lähteen laillisuudesta.
   </p>
 );
 
@@ -34,10 +36,10 @@ const UploadPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [fileValidationError, setFileValidationError] = useState(null);
 
-  const [ripperName, setRipperName] = useState("");
-  const [ripperEmail, setRipperEmail] = useState("");
-  const [sourceDescription, setSourceDescription] = useState("");
-  const [message, setMessage] = useState("");
+  const [ripperName, setRipperName] = useState('');
+  const [ripperEmail, setRipperEmail] = useState('');
+  const [sourceDescription, setSourceDescription] = useState('');
+  const [message, setMessage] = useState('');
 
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitResponse, setSubmitResponse] = useState(null);
@@ -47,39 +49,48 @@ const UploadPage = () => {
 
   const handleMusicSourceChange = (ev) => setMusicSource(ev.target.value);
 
-  const pushS3key = (key) => setS3keys(prevKeys => [...prevKeys, key]);
+  const pushS3key = (key) => setS3keys((prevKeys) => [...prevKeys, key]);
 
   const onRipperNameChange = (ev) => setRipperName(ev.target.value);
 
   const onRipperEmailChange = (ev) => setRipperEmail(ev.target.value);
 
-  const onSourceDescriptionChange = (ev) => setSourceDescription(ev.target.value);
+  const onSourceDescriptionChange = (ev) =>
+    setSourceDescription(ev.target.value);
 
   const onMessageChange = (ev) => setMessage(ev.target.value);
 
-  const isSubmitDisabled = ripperName === ""
-    || ripperEmail === ""
-    || sourceDescription === ""
-    || S3keys.length === 0
-    || isLoading
-    || fileValidationError
-    || submitLoading;
+  const isSubmitDisabled =
+    ripperName === '' ||
+    ripperEmail === '' ||
+    sourceDescription === '' ||
+    S3keys.length === 0 ||
+    isLoading ||
+    fileValidationError ||
+    submitLoading;
 
   const onSubmitClick = async () => {
     setSubmitLoading(true);
-    const response = await submitSongs(S3keys, ripperName, ripperEmail, musicSource, sourceDescription, message);
+    const response = await submitSongs(
+      S3keys,
+      ripperName,
+      ripperEmail,
+      musicSource,
+      sourceDescription,
+      message
+    );
     setSubmitResponse(response);
     setSubmitLoading(false);
-  }
+  };
 
   const onCloseModal = () => {
     setMusicSource(null);
     setS3keys([]);
     setFiles({});
     setFileValidationError(null);
-    setSourceDescription("");
+    setSourceDescription('');
     setSubmitResponse(null);
-  }
+  };
 
   return (
     <>
@@ -87,14 +98,24 @@ const UploadPage = () => {
 
       <div className="Box" onChange={handleMusicSourceChange}>
         <h2>Musiikin lähde</h2>
-        <RadioButton name="musicSource" text="Fyysinen CD-levy" value="CD" checked={musicSource === "CD"} />
-        <RadioButton name="musicSource" text="Jokin muu lähde" value="Other" checked={musicSource === "Other"} />
+        <RadioButton
+          name="musicSource"
+          text="Fyysinen CD-levy"
+          value="CD"
+          checked={musicSource === 'CD'}
+        />
+        <RadioButton
+          name="musicSource"
+          text="Jokin muu lähde"
+          value="Other"
+          checked={musicSource === 'Other'}
+        />
       </div>
 
       {musicSource && (
         <div className="IndexContent">
-          {musicSource === "CD" && CD_INSTRUCTION}
-          {musicSource === "Other" && OTHER_INSTRUCTION}
+          {musicSource === 'CD' && CD_INSTRUCTION}
+          {musicSource === 'Other' && OTHER_INSTRUCTION}
         </div>
       )}
 
@@ -105,9 +126,10 @@ const UploadPage = () => {
           pushS3key={pushS3key}
           setIsLoading={setIsLoading}
           fileValidationError={fileValidationError}
-          setFileValidationError={setFileValidationError} />
+          setFileValidationError={setFileValidationError}
+        />
       )}
-      
+
       {musicSource && (
         <div className="Box">
           <h2>Lähettäjän tiedot</h2>
@@ -115,30 +137,38 @@ const UploadPage = () => {
             <Input
               placeholder="Nimi"
               value={ripperName}
-              onChange={onRipperNameChange} />
+              onChange={onRipperNameChange}
+            />
             <Input
               placeholder="Sähköposti"
               value={ripperEmail}
-              onChange={onRipperEmailChange} />
+              onChange={onRipperEmailChange}
+            />
             <Input
               placeholder="Mistä musiikki on hankittu"
               value={sourceDescription}
-              onChange={onSourceDescriptionChange} />
+              onChange={onSourceDescriptionChange}
+            />
             <Input
               placeholder="Terveiset toimitukselle"
               value={message}
-              onChange={onMessageChange} />
+              onChange={onMessageChange}
+            />
             <Button onClick={onSubmitClick} disabled={isSubmitDisabled}>
-              {submitLoading
-                ? <Loading className="Dropzone-loading" />
-                : 'Lähetä'}
+              {submitLoading ? (
+                <Loading className="Dropzone-loading" />
+              ) : (
+                'Lähetä'
+              )}
             </Button>
           </div>
         </div>
       )}
-      {submitResponse && <Modal response={submitResponse} closeModal={onCloseModal} />}
+      {submitResponse && (
+        <Modal response={submitResponse} closeModal={onCloseModal} />
+      )}
     </>
   );
-}
+};
 
 export default UploadPage;

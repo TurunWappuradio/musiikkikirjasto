@@ -1,14 +1,10 @@
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import IndexPage from "./pages/IndexPage";
-import UploadPage from "./pages/UploadPage";
-import ControlPage from "./pages/ControlPage";
-import ProfessionalPage from "./pages/UploadPage/ProfessionalPage";
-import './styles/main.scss'
+import IndexPage from './pages/IndexPage';
+import UploadPage from './pages/UploadPage';
+import ControlPage from './pages/ControlPage';
+import ProfessionalPage from './pages/UploadPage/ProfessionalPage';
+import './styles/main.scss';
 
 const App = () => {
   return (
@@ -31,6 +27,6 @@ const App = () => {
       </Router>
     </div>
   );
-}
+};
 
 export default App;

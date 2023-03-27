@@ -23,13 +23,16 @@ $margin: 30px;
     > li {
       line-height: 1.4;
     }
-  }    
+  }
 
   > * {
     margin: 10px;
   }
 
-  > h1, div, p, ul {
+  > h1,
+  div,
+  p,
+  ul {
     width: 600px;
     max-width: 90%;
   }

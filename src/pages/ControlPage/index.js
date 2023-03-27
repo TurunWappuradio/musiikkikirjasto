@@ -1,4 +1,4 @@
-import './ControlStyle.scss'
+import './ControlStyle.scss';
 import Header from '../../components/Header';
 import React from 'react';
 
@@ -10,12 +10,13 @@ const Songs = (props) => {
         <td>{props.title}</td>
         <td>{props.album}</td>
         <td>{props.length}</td>
-        <td><button>lataa</button> <button>poista</button></td>
+        <td>
+          <button>lataa</button> <button>poista</button>
+        </td>
       </tr>
     </tbody>
-  )
-}
-
+  );
+};
 
 const ControlPage = () => {
   const songs = [
@@ -23,26 +24,25 @@ const ControlPage = () => {
       artist: 'Minä',
       title: 'Otsikko',
       album: 'Kokoelma',
-      length: '6:60'
+      length: '6:60',
     },
     {
       artist: 'Sinä',
       title: 'Titteli',
       album: 'Bangeri',
-      length: '4:20'
-
+      length: '4:20',
     },
     {
       artist: 'Yhä minä',
       title: 'Kovakoodattua kuraa',
       album: 'Joo totanoin',
-      length: '6.69'
-    }
-  ]
+      length: '6.69',
+    },
+  ];
   return (
     <>
-      <Header title='Hallintanäkymä' />
-      <div className='ControlContent' >
+      <Header title="Hallintanäkymä" />
+      <div className="ControlContent">
         <p>Tervetuloa hallintanäkymään :P</p>
       </div>
       <div>
@@ -55,18 +55,19 @@ const ControlPage = () => {
               <th>length</th>
             </tr>
           </tbody>
-          {songs.map(s => (
+          {songs.map((s) => (
             <Songs
               key={s.title}
               artist={s.artist}
               title={s.title}
               album={s.album}
-              length={s.length} />
+              length={s.length}
+            />
           ))}
         </table>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default ControlPage;

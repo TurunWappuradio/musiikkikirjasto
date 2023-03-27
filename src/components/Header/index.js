@@ -11,11 +11,11 @@ const Header = ({ title }) => (
       </ul>
     </header>
     <div className="imgContainer">
-      <img src="leima.svg" alt="Turun Wappuradio" width="300" height="300"/>
+      <img src="leima.svg" alt="Turun Wappuradio" width="300" height="300" />
     </div>
     <div className="HeaderContainer">
       <h1>{title}</h1>
-    </div>  
+    </div>
   </>
 );
 
