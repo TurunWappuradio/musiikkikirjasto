@@ -5,6 +5,10 @@
   margin: auto;
   line-height: 1.4;
   padding: 7px;
+
+  > * {
+    margin: 0.5rem 0;
+  }
 }
 
 .Songs {
