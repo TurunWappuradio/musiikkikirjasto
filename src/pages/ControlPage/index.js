@@ -2,7 +2,7 @@ import './ControlStyle.scss'
 import Header from '../../components/Header';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import Table from '../../components/Table'
+import Table from './musicTable/index'
 import { isMobile } from 'react-device-detect';
 import tracklist from '../IndexPage/tracklist.json'
 
@@ -26,7 +26,7 @@ const ControlPage = () => {
     setSongs(getRows(songList, 0));
   }, [songList]);
 
- /* useEffect(() => {
+useEffect(() => {
     axios({
       method: 'post',
       url: LAMBDA_URL,
@@ -38,7 +38,7 @@ const ControlPage = () => {
     .then(response => setSongs(response.data.songs))
   
   }, [])
-*/
+
   console.log(songList)
 
   const tableHeaders = [

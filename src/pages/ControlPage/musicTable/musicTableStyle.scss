@@ -1,0 +1,138 @@
+@import '../../../styles/main.scss';
+
+#root {
+  width: 100%;
+}
+
+.tableWrapper {
+  margin-top: 80px;
+}
+
+.TableRoot {
+  background-color: $tableBackgorund;
+
+  .TableHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    background-color: darken($tableBackgorund, $amount: 4);
+    margin-top: -0.02px;
+
+    .Input {
+      margin: 20px;
+    }
+
+    .columnMain {
+      background-color: darken($tableBackgorund, $amount: 2);
+      width: 100%;
+
+      .columnNamesBox {
+        display: flex;  
+        flex-direction: row;
+        max-width: 1400px;
+        margin-right: auto;
+        margin-left: auto;
+
+        .columnNames {
+          color: #ee6b60;
+          text-align: start;
+          padding: 0.8rem 2rem;
+          flex: 1;
+
+          @media (max-width: 700px), (max-device-width: 700px) {
+            padding: 1rem;
+            font-size: 0.7rem;
+            margin-left: auto;
+            margin-right: auto;
+          }
+
+          &:last-child {
+            max-width: 130px;
+          }
+        }
+      }
+    }
+  }
+
+  .infinite-scroll-component {
+    overflow: hidden !important;
+
+    table {
+      border-spacing: 0;
+      width: 100%;
+      table-layout: fixed;
+      max-width: 1400px;
+      margin-right: auto;
+      margin-left: auto;
+
+      tr {
+        :last-child {
+          td {
+            border-bottom: 0;
+          }
+        }
+      }
+
+      td {
+        padding: 0.8rem 2rem;
+        border-bottom: 1.5px solid rgba($color: #000000, $alpha: 0.2);
+        width: auto;
+
+        &:last-child {
+          width: 130px;
+        }
+        
+        @media (max-width: 700px), (max-device-width: 700px) {
+          padding: 1rem;
+          font-size: 0.7rem;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+    }
+  }
+
+  .Table-nodata {
+    text-align: center;
+    padding: 1rem;
+  }
+}
+
+.floatingButton {
+  padding: 20px;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  background-color: rgba($color: #000000, $alpha: 0.2);
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  color: $colorWhite;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  border: 3px solid $colorWhite;
+  font-weight: 600;
+
+  @media (max-width: 700px), (max-device-width: 700px) {
+    color: initial;
+    background: $colorWhite;
+  }
+
+  &:hover {
+      color: initial;
+      background: $colorWhite;
+  }
+}
