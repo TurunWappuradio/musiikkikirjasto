@@ -7,10 +7,11 @@ import { isMobile } from 'react-device-detect';
 import tracklist from '../IndexPage/tracklist.json'
 
 const LAMBDA_URL = process.env.REACT_APP_MUSIC_LAMBDA_URL;
+const prod_url = 'api.turunwappuradio.com/prod/music-lambda'
 
 const ControlPage = () => {
 
-  const [songList, setSongList] = useState(tracklist)
+  const [songList, setSongList] = useState([])
   const [songs, setSongs] = useState([])
 
   const update = () => {
