@@ -11,7 +11,8 @@ $tableBackgorund: #002447;
 $colorGreen: #23c123;
 $colorRed: #e61414;
 
-*, all {
+*,
+all {
   font-family: Montserrat, sans-serif;
   box-sizing: border-box;
   color: $colorWhite;
@@ -27,9 +28,20 @@ body {
   align-items: center;
   flex-direction: column;
   background: $colorDarkBlue;
-  background: -moz-linear-gradient(top, $colorDarkBlue 0%, 66%, $colorNotAsDarkBlue 100%);
-  background: -webkit-linear-gradient(top, $colorDarkBlue 0%, 66%, $colorNotAsDarkBlue 100%);
-  background: $colorDarkBlue linear-gradient(to bottom, $colorDarkBlue 0%, 66%, $colorNotAsDarkBlue 100%);
+  background: -moz-linear-gradient(
+    top,
+    $colorDarkBlue 0%,
+    66%,
+    $colorNotAsDarkBlue 100%
+  );
+  background: -webkit-linear-gradient(
+    top,
+    $colorDarkBlue 0%,
+    66%,
+    $colorNotAsDarkBlue 100%
+  );
+  background: $colorDarkBlue
+    linear-gradient(to bottom, $colorDarkBlue 0%, 66%, $colorNotAsDarkBlue 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$colorDarkBlue, endColorstr=$colorNotAsDarkBlue, GradientType=0 );
 }
 

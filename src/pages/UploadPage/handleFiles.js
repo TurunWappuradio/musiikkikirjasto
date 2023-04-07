@@ -3,9 +3,9 @@ const LAMBDA_URL = process.env.REACT_APP_MUSIC_LAMBDA_URL;
 const ping = () => {
   fetch(LAMBDA_URL, {
     method: 'POST',
-    body: JSON.stringify({ operation: 'ping' })
+    body: JSON.stringify({ operation: 'ping' }),
   });
-}
+};
 
 const uploadFile = async (file) => {
   const file_ext = file.name.split('.').pop();
@@ -14,8 +14,8 @@ const uploadFile = async (file) => {
     method: 'POST',
     body: JSON.stringify({
       operation: 'get-upload-link',
-      file_ext
-    })
+      file_ext,
+    }),
   });
 
   if (uploadLinkResponse.status !== 200) {
@@ -26,11 +26,11 @@ const uploadFile = async (file) => {
 
   await fetch(uploadURL, {
     method: 'PUT',
-    body: file
+    body: file,
   });
 
   return filename;
-}
+};
 
 // read and validate song metadata
 const validateSong = async (filename) => {
@@ -38,21 +38,28 @@ const validateSong = async (filename) => {
     method: 'POST',
     body: JSON.stringify({
       operation: 'validate-song',
-      filename
-    })
+      filename,
+    }),
   });
 
   if (res.status !== 200) {
     return {
-      title: await res.json()
-    }
+      title: await res.json(),
+    };
   }
 
-  return res.json()
-}
+  return res.json();
+};
 
-// submit songs 
-const submitSongs = async (filenames, ripper_name, ripper_email, music_source, source_description, message) => {
+// submit songs
+const submitSongs = async (
+  filenames,
+  ripper_name,
+  ripper_email,
+  music_source,
+  source_description,
+  message
+) => {
   try {
     const res = await fetch(LAMBDA_URL, {
       method: 'POST',
@@ -63,38 +70,53 @@ const submitSongs = async (filenames, ripper_name, ripper_email, music_source, s
         ripper_email,
         music_source,
         source_description,
-        message
-      })
+        message,
+      }),
     });
-  
+
     if (res.status !== 200) {
       return {
-        "status": "error",
-        "response": await res.json()
+        status: 'error',
+        response: await res.json(),
       };
     }
-  
+
     return res.json();
   } catch (err) {
-    console.error("Error submitting songs: ", err);
+    console.error('Error submitting songs: ', err);
     return { error: err.message };
   }
-}
+};
 
 // submit multiple discs at once
-const professionalSubmitSongs = async (discs, ripper_name, ripper_email, music_source, source_description, message) => {
+const professionalSubmitSongs = async (
+  discs,
+  ripper_name,
+  ripper_email,
+  music_source,
+  source_description,
+  message
+) => {
   const discPromises = discs.map(async ({ files }) => {
     // upload to S3
-    const filenamesPromise = Object.values(files)
-      .map(async (file) => await uploadFile(file.file));
+    const filenamesPromise = Object.values(files).map(
+      async (file) => await uploadFile(file.file)
+    );
 
     const filenames = await Promise.all(filenamesPromise);
 
     // call submit song
-    return submitSongs(filenames, ripper_name, ripper_email, music_source, source_description, message)
+    return submitSongs(
+      filenames,
+      ripper_name,
+      ripper_email,
+      music_source,
+      source_description,
+      message
+    );
   });
 
   return Promise.all(discPromises);
-}
+};
 
 export { ping, uploadFile, validateSong, submitSongs, professionalSubmitSongs };

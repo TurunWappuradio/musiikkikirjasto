@@ -1,4 +1,4 @@
-import './ControlStyle.scss'
+import './ControlStyle.scss';
 import Header from '../../components/Header';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
@@ -62,8 +62,8 @@ useEffect(() => {
   ];
   return (
     <>
-      <Header title='Hallintanäkymä' />
-      <div className='ControlContent' >
+      <Header title="Hallintanäkymä" />
+      <div className="ControlContent">
         <p>Tervetuloa hallintanäkymään :P</p>
       </div>
       <div>
