@@ -3,12 +3,11 @@ import { MantineProvider } from '@mantine/core';
 
 import Header from '../../components/Header';
 
-const LAMBDA_URL = "https://api.turunwappuradio.com/prod/music-lambda"
-
-const password = '123'
+const LAMBDA_URL = 'https://api.turunwappuradio.com/prod/music-lambda';
 
 const QuarantinePage = () => {
   const [submissions, setSubmissions] = useState([]);
+  const password = localStorage.getItem('session');
 
   useEffect(() => {
     const fn = async () => {
@@ -17,14 +16,14 @@ const QuarantinePage = () => {
         body: JSON.stringify({
           operation: 'admin/get-quarantined',
           password,
-        })
-      })
+        }),
+      });
       const data = await res.json();
       setSubmissions(data.submissions);
-    }
+    };
 
     fn();
-  }, [])
+  }, []);
 
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
