@@ -4,7 +4,7 @@ import { Container, Accordion, Title, Text } from '@mantine/core';
 import Header from '../../components/Header';
 import Submission from './Submission';
 
-const LAMBDA_URL = 'https://api.turunwappuradio.com/prod/music-lambda';
+const LAMBDA_URL = process.env.REACT_APP_MUSIC_LAMBDA_URL;
 
 const QuarantinePage = () => {
   const [cdSubmissions, setCdSubmissions] = useState([]);
