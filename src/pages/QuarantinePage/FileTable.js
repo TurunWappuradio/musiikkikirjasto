@@ -4,11 +4,12 @@ const FileTable = ({ files }) => {
   const rows = files.sort(compareFile).map((file) => (
     <tr key={file.id}>
       <td>{file.filename}</td>
-      <td>{file.filetype}</td>
+      <td>{file?.metadata?.title ?? '–'}</td>
+      <td>{file?.metadata?.artist ?? '–'}</td>
+      <td>{file?.metadata?.album ?? '–'}</td>
+      <td>{formatLength(file?.metadata?.length)}</td>
     </tr>
   ));
-
-  console.log(files)
 
   return (
     <>
@@ -19,7 +20,10 @@ const FileTable = ({ files }) => {
         <thead>
           <tr>
             <th>Tiedosto</th>
-            <th>Tyyppi</th>
+            <th>Kappale</th>
+            <th>Artisti</th>
+            <th>Albumi</th>
+            <th>Kesto</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
@@ -57,6 +61,16 @@ const compareFile = (a, b) => {
   }
 
   return 0;
+};
+
+const formatLength = (length) => {
+  if (!length) return '-';
+
+  const sec_num = parseInt(length);
+  const minutes = Math.floor(sec_num / 60);
+  const seconds = Math.floor(sec_num % 60);
+
+  return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 };
 
 export default FileTable;

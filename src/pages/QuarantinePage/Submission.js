@@ -4,7 +4,7 @@ import FileTable from './FileTable';
 const Submission = ({ submission }) => {
   const { id, ripper_name, files, validation_error } = submission;
 
-  const audiofile = files.find(file => file?.metadata?.album)
+  const audiofile = files.find((file) => file?.metadata?.album);
   const { album, artist } = audiofile?.metadata ?? {};
 
   return (
