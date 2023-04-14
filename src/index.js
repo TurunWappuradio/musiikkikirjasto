@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { MantineProvider } from '@mantine/core';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <MantineProvider theme={{ colorScheme: 'dark' }}>
+      <App />
+    </MantineProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

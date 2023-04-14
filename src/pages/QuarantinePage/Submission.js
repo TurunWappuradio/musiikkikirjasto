@@ -1,10 +1,15 @@
+import { Accordion } from '@mantine/core';
+
 const Submission = ({ submission }) => {
-  const { id, ripper_name } = submission;
+  const { id, ripper_name, files } = submission;
 
   return (
-    <h1>
-      {id} – {ripper_name}
-    </h1>
+    <Accordion.Item value={id.toString()}>
+      <Accordion.Control>
+        {files.length} tiedostoa, {ripper_name}
+      </Accordion.Control>
+      <Accordion.Panel>Sisältö</Accordion.Panel>
+    </Accordion.Item>
   );
 };
 

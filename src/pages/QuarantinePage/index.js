@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, Badge } from '@mantine/core';
+import { Container, Badge, Accordion } from '@mantine/core';
 
 import Header from '../../components/Header';
 import Submission from './Submission';
@@ -37,9 +37,11 @@ const QuarantinePage = () => {
     <>
       <Header title={Title} />
       <Container>
-        {submissions.map((submission) => (
-          <Submission submission={submission} />
-        ))}
+        <Accordion variant="separated">
+          {submissions.map((submission) => (
+            <Submission key={submission.id} submission={submission} />
+          ))}
+        </Accordion>
       </Container>
     </>
   );
