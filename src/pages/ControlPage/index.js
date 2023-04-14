@@ -66,7 +66,7 @@ const ControlPage = () => {
         <p>Tervetuloa hallintanäkymään :P</p>
         <a href="/karanteeni">Karanteeni</a>
       </div>
-      <div>
+      <div className="ControlTable">
         <Table
           columns={tableHeaders}
           data={songs}

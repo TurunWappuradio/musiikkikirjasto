@@ -1,4 +1,5 @@
 import { Accordion, Title, Stack, Text, List } from '@mantine/core';
+import FileTable from './FileTable';
 
 const Submission = ({ submission }) => {
   const { id, ripper_name, files, validation_error } = submission;
@@ -13,6 +14,7 @@ const Submission = ({ submission }) => {
       <Accordion.Panel>
         <SubmissionInfo submission={submission} />
         <ValidationErrors errors={validation_error} />
+        <FileTable files={files} />
       </Accordion.Panel>
     </Accordion.Item>
   );
@@ -46,8 +48,8 @@ const ValidationErrors = ({ errors }) => {
   const errorCodes = errors.split(',');
 
   return (
-    <>
-      <Title order={4} mb={8} size="h5">
+    <Stack spacing="xs" mb={20}>
+      <Title order={4} size="h4">
         Validointivirheet
       </Title>
       <List>
@@ -55,7 +57,7 @@ const ValidationErrors = ({ errors }) => {
           <List.Item>{errorDescriptions[e]}</List.Item>
         ))}
       </List>
-    </>
+    </Stack>
   );
 };
 
