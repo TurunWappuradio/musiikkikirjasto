@@ -38,7 +38,7 @@ const QuarantinePage = () => {
   return (
     <>
       <Header title="Karanteeni" />
-      <Container>
+      <Container mb={100}>
         <Title order={2} size="h3" mb={8} mt={32}>
           CD levyltä ripatut, {cdSubmissions.length} kpl
         </Title>
