@@ -27,12 +27,14 @@ const ControlPage = () => {
   }, [songList]);
 
   useEffect(() => {
+    const password = localStorage.getItem('session');
+
     axios({
       method: 'post',
       url: LAMBDA_URL,
       data: {
         operation: 'admin/get-songs',
-        password: 'salaisuus',
+        password,
       },
     }).then((response) => setSongs(response.data.songs));
   }, []);

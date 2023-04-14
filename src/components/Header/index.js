@@ -4,6 +4,29 @@ import './HeaderStyle.scss';
 const LAMBDA_URL = process.env.REACT_APP_MUSIC_LAMBDA_URL;
 
 const Header = ({ title }) => {
+  const session = localStorage.getItem('session');
+  const isAdmin = session && session != '';
+
+  return (
+    <>
+      <header>
+        <ul>
+          <Link to="/">Musiikkikirjasto</Link>
+          <Link to="/lisaa">Musiikin lähettäminen</Link>
+          {isAdmin ? <Link to="/hallinta">Hallinta</Link> : <LoginButton />}
+        </ul>
+      </header>
+      <div className="imgContainer">
+        <img src="leima.svg" alt="Turun Wappuradio" width="300" height="300" />
+      </div>
+      <div className="HeaderContainer">
+        <h1>{title}</h1>
+      </div>
+    </>
+  );
+};
+
+const LoginButton = () => {
   const history = useHistory();
 
   const handleLoginClicked = async () => {
@@ -19,8 +42,8 @@ const Header = ({ title }) => {
       });
 
       if (response.status === 200) {
-        // A succesful login request sets a cookie,
-        // which can be used to access admin pages.
+        // Store the password in localStorage. This is a very bad practice.
+        localStorage.setItem('session', password);
         history.push('/hallinta');
       } else {
         alert('Väärin.');
@@ -31,23 +54,9 @@ const Header = ({ title }) => {
   };
 
   return (
-    <>
-      <header>
-        <ul>
-          <Link to="/">Musiikkikirjasto</Link>
-          <Link to="/lisaa">Musiikin lähettäminen</Link>
-          <button onClick={handleLoginClicked} className="LoginButton">
-            Kirjaudu
-          </button>
-        </ul>
-      </header>
-      <div className="imgContainer">
-        <img src="leima.svg" alt="Turun Wappuradio" width="300" height="300" />
-      </div>
-      <div className="HeaderContainer">
-        <h1>{title}</h1>
-      </div>
-    </>
+    <button onClick={handleLoginClicked} className="LoginButton">
+      Kirjaudu
+    </button>
   );
 };
 
