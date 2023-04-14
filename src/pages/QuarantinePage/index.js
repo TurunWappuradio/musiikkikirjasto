@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { MantineProvider } from '@mantine/core';
+import { Container, Badge } from '@mantine/core';
 
 import Header from '../../components/Header';
+import Submission from './Submission';
 
 const LAMBDA_URL = 'https://api.turunwappuradio.com/prod/music-lambda';
 
@@ -19,16 +20,28 @@ const QuarantinePage = () => {
         }),
       });
       const data = await res.json();
-      setSubmissions(data.submissions);
+      setSubmissions(Object.values(data.submissions));
     };
 
     fn();
   }, []);
 
+  const Title = (
+    <>
+      Karanteeni
+      <Badge variant="filled">{submissions.length}</Badge>
+    </>
+  );
+
   return (
-    <MantineProvider withGlobalStyles withNormalizeCSS>
-      <Header title="Karanteeni" />
-    </MantineProvider>
+    <>
+      <Header title={Title} />
+      <Container>
+        {submissions.map((submission) => (
+          <Submission submission={submission} />
+        ))}
+      </Container>
+    </>
   );
 };
 
