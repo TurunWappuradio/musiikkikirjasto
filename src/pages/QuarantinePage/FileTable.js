@@ -8,6 +8,8 @@ const FileTable = ({ files }) => {
     </tr>
   ));
 
+  console.log(files)
+
   return (
     <>
       <Title order={4} my={8} size="h4">

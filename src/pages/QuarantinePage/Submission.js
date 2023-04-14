@@ -1,15 +1,22 @@
-import { Accordion, Title, Stack, Text, List } from '@mantine/core';
+import { Accordion, Group, Title, Stack, Text, List } from '@mantine/core';
 import FileTable from './FileTable';
 
 const Submission = ({ submission }) => {
   const { id, ripper_name, files, validation_error } = submission;
 
+  const audiofile = files.find(file => file?.metadata?.album)
+  const { album, artist } = audiofile?.metadata ?? {};
+
   return (
     <Accordion.Item value={id.toString()}>
       <Accordion.Control>
-        <Title order={3} size="h4">
-          {files.length} tiedostoa, {ripper_name}
-        </Title>
+        <Group grow>
+          <Title order={3} size="h4">
+            {artist} - {album}
+          </Title>
+          <Text>{ripper_name}</Text>
+          <Text>{files.length} tiedostoa</Text>
+        </Group>
       </Accordion.Control>
       <Accordion.Panel>
         <SubmissionInfo submission={submission} />
@@ -54,7 +61,7 @@ const ValidationErrors = ({ errors }) => {
       </Title>
       <List>
         {errorCodes.map((e) => (
-          <List.Item>{errorDescriptions[e]}</List.Item>
+          <List.Item key={e}>{errorDescriptions[e]}</List.Item>
         ))}
       </List>
     </Stack>

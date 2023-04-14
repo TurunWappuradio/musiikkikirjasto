@@ -61,7 +61,11 @@ const QuarantinePage = () => {
           karanteeniin, ja vaativat musiikkitiimin hyväksynnän, jotta ne voidaan
           päästää musiikkikirjastoon.
         </Text>
-        <Accordion variant="separated"></Accordion>
+        <Accordion variant="separated">
+          {otherSubmissions.map((submission) => (
+            <Submission key={submission.id} submission={submission} />
+          ))}
+        </Accordion>
       </Container>
     </>
   );
