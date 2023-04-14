@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, Badge, Accordion } from '@mantine/core';
+import { Container, Accordion, Title } from '@mantine/core';
 
 import Header from '../../components/Header';
 import Submission from './Submission';
@@ -7,7 +7,8 @@ import Submission from './Submission';
 const LAMBDA_URL = 'https://api.turunwappuradio.com/prod/music-lambda';
 
 const QuarantinePage = () => {
-  const [submissions, setSubmissions] = useState([]);
+  const [cdSubmissions, setCdSubmissions] = useState([]);
+  const [otherSubmissions, setOtherSubmissions] = useState([]);
   const password = localStorage.getItem('session');
 
   useEffect(() => {
@@ -20,25 +21,37 @@ const QuarantinePage = () => {
         }),
       });
       const data = await res.json();
-      setSubmissions(Object.values(data.submissions));
+
+      const values = Object.values(data.submissions);
+      const cds = values.filter(({ music_source }) => music_source === 'CD');
+      const others = values.filter(
+        ({ music_source }) => music_source === 'Other'
+      );
+
+      setCdSubmissions(cds);
+      setOtherSubmissions(others);
     };
 
     fn();
   }, []);
 
-  const Title = (
-    <>
-      Karanteeni
-      <Badge variant="filled">{submissions.length}</Badge>
-    </>
-  );
-
   return (
     <>
-      <Header title={Title} />
+      <Header title="Karanteeni" />
       <Container>
+        <Title order={2} size="h3" mb={8}>
+          CD levyltä ripatut: {cdSubmissions.length} kpl
+        </Title>
         <Accordion variant="separated">
-          {submissions.map((submission) => (
+          {cdSubmissions.map((submission) => (
+            <Submission key={submission.id} submission={submission} />
+          ))}
+        </Accordion>
+        <Title order={2} size="h3" mt={16} mb={8}>
+          Muut: {otherSubmissions.length} kpl
+        </Title>
+        <Accordion variant="separated">
+          {otherSubmissions.map((submission) => (
             <Submission key={submission.id} submission={submission} />
           ))}
         </Accordion>
