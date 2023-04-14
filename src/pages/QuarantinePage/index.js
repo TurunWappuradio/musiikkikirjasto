@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, Accordion, Title } from '@mantine/core';
+import { Container, Accordion, Title, Text } from '@mantine/core';
 
 import Header from '../../components/Header';
 import Submission from './Submission';
@@ -39,17 +39,28 @@ const QuarantinePage = () => {
     <>
       <Header title="Karanteeni" />
       <Container>
-        <Title order={2} size="h3" mb={8}>
-          CD levyltä ripatut: {cdSubmissions.length} kpl
+        <Title order={2} size="h3" mb={8} mt={32}>
+          CD levyltä ripatut, {cdSubmissions.length} kpl
         </Title>
+        <Text my={16}>
+          Onnistuneesti Wappuradion ohjeiden mukaan ripatut CD:t menevät suoraan
+          automaattisesti musiikkikirjastoon. Karanteeniin jääneissä levyissä on
+          siis jotain kummallisuutta tapahtunut, joka vaatii käsin
+          tarkistamisen.
+        </Text>
         <Accordion variant="separated">
           {cdSubmissions.map((submission) => (
             <Submission key={submission.id} submission={submission} />
           ))}
         </Accordion>
-        <Title order={2} size="h3" mt={16} mb={8}>
-          Muut: {otherSubmissions.length} kpl
+        <Title order={2} size="h3" mt={32} mb={8}>
+          Muut lähteet, {otherSubmissions.length} kpl
         </Title>
+        <Text my={16}>
+          Muusta lähteestä, kuin CD:ltä hankitut biisit jäävät aina
+          karanteeniin, ja vaativat musiikkitiimin hyväksynnän, jotta ne voidaan
+          päästää musiikkikirjastoon.
+        </Text>
         <Accordion variant="separated">
           {otherSubmissions.map((submission) => (
             <Submission key={submission.id} submission={submission} />
