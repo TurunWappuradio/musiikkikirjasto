@@ -53,7 +53,11 @@ const QuarantinePage = () => {
       <Container mb={100}>
         <Group>
           <Text mr="auto">Valittu: {selected.size || '0'} kpl</Text>
-          <Button onClick={handleAcceptClick} color="green">
+          <Button
+            onClick={handleAcceptClick}
+            disabled={selected.size === 0}
+            color="green"
+          >
             Hyväksy
           </Button>
         </Group>
