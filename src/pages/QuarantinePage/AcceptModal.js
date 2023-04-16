@@ -5,7 +5,13 @@ import Submission from './Submission';
 
 const LAMBDA_URL = process.env.REACT_APP_MUSIC_LAMBDA_URL;
 
-const AcceptModal = ({ opened, onClose, submissions, selected }) => {
+const AcceptModal = ({
+  opened,
+  onClose,
+  submissions,
+  selected,
+  clearSelected,
+}) => {
   const [loading, setLoading] = useState(false);
   const [current, setCurrent] = useState(0);
   const [error, setError] = useState(null);
@@ -28,19 +34,21 @@ const AcceptModal = ({ opened, onClose, submissions, selected }) => {
           break;
         }
 
-        setCurrent(current + 1);
+        setCurrent((prev) => prev + 1);
       } catch (err) {
         setError(`Fetch failed for submission ${id}: ${err.message}`);
         setLoading(false);
         break;
       }
     }
-    setCurrent(current + 1);
-
     setLoading(false);
   };
 
   const handleClose = () => {
+    if (success) {
+      clearSelected();
+    }
+
     setLoading(false);
     setCurrent(0);
     setError(null);
@@ -62,7 +70,7 @@ const AcceptModal = ({ opened, onClose, submissions, selected }) => {
           ))}
         </Accordion>
         <Group>
-          <Button color="red" onClick={onClose}>
+          <Button color="red" onClick={handleClose} disabled={success}>
             Ei!
           </Button>
           <Button

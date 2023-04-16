@@ -17,10 +17,12 @@ import AcceptModal from './AcceptModal';
 const LAMBDA_URL = process.env.REACT_APP_MUSIC_LAMBDA_URL;
 
 const QuarantinePage = () => {
-  const submissions = useSubmissions();
+  const { fetchSubmissions, submissions } = useSubmissions();
+
   const cdSubmissions = Object.values(submissions).filter(
     ({ music_source }) => music_source === 'CD'
   );
+
   const otherSubmissions = Object.values(submissions).filter(
     ({ music_source }) => music_source === 'Other'
   );
@@ -31,7 +33,11 @@ const QuarantinePage = () => {
 
   const handleAcceptClick = open;
 
-  const handleModalClose = close;
+  const handleModalClose = () => {
+    // refetch submissions
+    close();
+    fetchSubmissions();
+  };
 
   const handleCheckBoxChange = (id) => {
     setSelected((prev) => {
@@ -104,6 +110,7 @@ const QuarantinePage = () => {
         onClose={handleModalClose}
         submissions={submissions}
         selected={selected}
+        clearSelected={() => setSelected(new Set())}
       />
     </>
   );
@@ -119,25 +126,25 @@ const SubmissionWithCheckbox = ({ submission, checked, onChange }) => (
 const useSubmissions = () => {
   const [submissions, setSubmissions] = useState({});
 
+  const fetchSubmissions = async () => {
+    const password = localStorage.getItem('session');
+    const res = await fetch(LAMBDA_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        operation: 'admin/get-quarantined',
+        password,
+      }),
+    });
+    const data = await res.json();
+
+    setSubmissions(data.submissions ?? {});
+  };
+
   useEffect(() => {
-    const fn = async () => {
-      const password = localStorage.getItem('session');
-      const res = await fetch(LAMBDA_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          operation: 'admin/get-quarantined',
-          password,
-        }),
-      });
-      const data = await res.json();
-
-      setSubmissions(data.submissions ?? {});
-    };
-
-    fn();
+    fetchSubmissions();
   }, []);
 
-  return submissions;
+  return { submissions, fetchSubmissions };
 };
 
 export default QuarantinePage;
