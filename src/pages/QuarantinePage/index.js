@@ -56,7 +56,7 @@ const QuarantinePage = () => {
   return (
     <>
       <Header title="Karanteeni" />
-      <Container mb={100}>
+      <Container size="80vw" px="xs" mb={100}>
         <Group>
           <Text mr="auto">Valittu: {selected.size || '0'} kpl</Text>
           <Button

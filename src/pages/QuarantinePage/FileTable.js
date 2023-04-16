@@ -7,6 +7,7 @@ const FileTable = ({ files }) => {
       <td>{file?.metadata?.title ?? '–'}</td>
       <td>{file?.metadata?.artist ?? '–'}</td>
       <td>{file?.metadata?.album ?? '–'}</td>
+      <td>{file?.metadata?.year ?? '–'}</td>
       <td>{formatLength(file?.metadata?.length)}</td>
     </tr>
   ));
@@ -23,6 +24,7 @@ const FileTable = ({ files }) => {
             <th>Kappale</th>
             <th>Artisti</th>
             <th>Albumi</th>
+            <th>Vuosi</th>
             <th>Kesto</th>
           </tr>
         </thead>
@@ -64,7 +66,7 @@ const compareFile = (a, b) => {
 };
 
 const formatLength = (length) => {
-  if (!length) return '-';
+  if (!length) return '–';
 
   const sec_num = parseInt(length);
   const minutes = Math.floor(sec_num / 60);
