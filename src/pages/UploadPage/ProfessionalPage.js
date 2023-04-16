@@ -15,10 +15,10 @@ const ProfessionalPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [fileValidationError, setFileValidationError] = useState(null);
 
-  const [ripperName, setRipperName] = useState("");
-  const [ripperEmail, setRipperEmail] = useState("");
-  const [sourceDescription, setSourceDescription] = useState("");
-  const [message, setMessage] = useState("");
+  const [ripperName, setRipperName] = useState('');
+  const [ripperEmail, setRipperEmail] = useState('');
+  const [sourceDescription, setSourceDescription] = useState('');
+  const [message, setMessage] = useState('');
 
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitResponse, setSubmitResponse] = useState(null);
@@ -27,59 +27,71 @@ const ProfessionalPage = () => {
   useEffect(() => ping(), []);
 
   const handleMusicSourceChange = (ev) => setMusicSource(ev.target.value);
-  
+
   const handleAddDisc = () => setDiscs([...discs, { files: {} }]);
 
   const addFilesAtIndex = (idx, files) => {
     const newDiscs = [...discs];
 
-    const newFiles = files.reduce((acc, file) => ({
-      ...acc,
-      [file.name]: {
-        file,
-        isLoading: false,
-        metadata: { title: file.name },
-        isValidFile: true 
-      }
-    }), {});
+    const newFiles = files.reduce(
+      (acc, file) => ({
+        ...acc,
+        [file.name]: {
+          file,
+          isLoading: false,
+          metadata: { title: file.name },
+          isValidFile: true,
+        },
+      }),
+      {}
+    );
 
     newDiscs.splice(idx, 1, {
-      files: { ...discs[idx].files, ...newFiles }
+      files: { ...discs[idx].files, ...newFiles },
     });
 
     setDiscs(newDiscs);
-  }
+  };
 
   const onRipperNameChange = (ev) => setRipperName(ev.target.value);
 
   const onRipperEmailChange = (ev) => setRipperEmail(ev.target.value);
 
-  const onSourceDescriptionChange = (ev) => setSourceDescription(ev.target.value);
+  const onSourceDescriptionChange = (ev) =>
+    setSourceDescription(ev.target.value);
 
   const onMessageChange = (ev) => setMessage(ev.target.value);
 
-  const isSubmitDisabled = !musicSource
-    || ripperName === ""
-    || ripperEmail === ""
-    || sourceDescription === ""
-    || isLoading
-    || fileValidationError
-    || submitLoading;
+  const isSubmitDisabled =
+    !musicSource ||
+    ripperName === '' ||
+    ripperEmail === '' ||
+    sourceDescription === '' ||
+    isLoading ||
+    fileValidationError ||
+    submitLoading;
 
   const onSubmitClick = async () => {
     setSubmitLoading(true);
-    const response = await professionalSubmitSongs(discs, ripperName, ripperEmail, musicSource, sourceDescription, message);
+    const response = await professionalSubmitSongs(
+      discs,
+      ripperName,
+      ripperEmail,
+      musicSource,
+      sourceDescription,
+      message
+    );
     setSubmitResponse(response);
     setSubmitLoading(false);
-  }
+  };
 
   const onCloseModal = () => {
     setMusicSource(null);
     setDiscs([]);
     setFileValidationError(null);
-    setSourceDescription("");
+    setSourceDescription('');
     setSubmitResponse(null);
-  }
+  };
 
   return (
     <>
@@ -87,8 +99,18 @@ const ProfessionalPage = () => {
 
       <div className="Box" onChange={handleMusicSourceChange}>
         <h2>Musiikin lähde</h2>
-        <RadioButton name="musicSource" text="Fyysinen CD-levy" value="CD" checked={musicSource === "CD"} />
-        <RadioButton name="musicSource" text="Jokin muu lähde" value="Other" checked={musicSource === "Other"} />
+        <RadioButton
+          name="musicSource"
+          text="Fyysinen CD-levy"
+          value="CD"
+          checked={musicSource === 'CD'}
+        />
+        <RadioButton
+          name="musicSource"
+          text="Jokin muu lähde"
+          value="Other"
+          checked={musicSource === 'Other'}
+        />
       </div>
 
       {discs.map((disc, idx) => (
@@ -96,11 +118,12 @@ const ProfessionalPage = () => {
           key={idx}
           isProfessional={true}
           files={disc.files}
-          addFiles={files => addFilesAtIndex(idx, files)}
+          addFiles={(files) => addFilesAtIndex(idx, files)}
           pushS3key={() => {}}
           setIsLoading={setIsLoading}
           fileValidationError={fileValidationError}
-          setFileValidationError={setFileValidationError} />
+          setFileValidationError={setFileValidationError}
+        />
       ))}
 
       <Button className="ProButton" onClick={handleAddDisc}>
@@ -113,29 +136,40 @@ const ProfessionalPage = () => {
           <Input
             placeholder="Nimi"
             value={ripperName}
-            onChange={onRipperNameChange} />
+            onChange={onRipperNameChange}
+          />
           <Input
             placeholder="Sähköposti"
             value={ripperEmail}
-            onChange={onRipperEmailChange} />
+            onChange={onRipperEmailChange}
+          />
           <Input
             placeholder="Mistä musiikki on hankittu"
             value={sourceDescription}
-            onChange={onSourceDescriptionChange} />
+            onChange={onSourceDescriptionChange}
+          />
           <Input
             placeholder="Terveiset toimitukselle"
             value={message}
-            onChange={onMessageChange} />
+            onChange={onMessageChange}
+          />
           <Button onClick={onSubmitClick} disabled={isSubmitDisabled}>
-            {submitLoading
-              ? <Loading className="Dropzone-loading" />
-              : 'Lähetä'}
+            {submitLoading ? (
+              <Loading className="Dropzone-loading" />
+            ) : (
+              'Lähetä'
+            )}
           </Button>
         </div>
       </div>
-      {submitResponse && <ProfessionalModal responses={submitResponse} closeModal={onCloseModal} />}
+      {submitResponse && (
+        <ProfessionalModal
+          responses={submitResponse}
+          closeModal={onCloseModal}
+        />
+      )}
     </>
   );
-}
+};
 
 export default ProfessionalPage;

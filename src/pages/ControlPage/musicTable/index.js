@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { useTable } from 'react-table';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import './TableStyle.scss';
+import './musicTableStyle.scss';
 
 const Table = ({
   columns,
