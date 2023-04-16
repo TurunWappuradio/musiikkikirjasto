@@ -5,14 +5,14 @@ const Submission = ({ submission }) => {
   const { id, ripper_name, files, validation_error } = submission;
 
   const audiofile = files.find((file) => file?.metadata?.album);
-  const { album, artist } = audiofile?.metadata ?? {};
+  const { album, albumartist, artist } = audiofile?.metadata ?? {};
 
   return (
-    <Accordion.Item value={id.toString()}>
+    <Accordion.Item value={id.toString()} sx={{ flex: 1 }}>
       <Accordion.Control>
         <Group grow>
           <Title order={3} size="h4">
-            {artist} - {album}
+            {albumartist ?? artist} - {album}
           </Title>
           <Text>{ripper_name}</Text>
           <Text>{files.length} tiedostoa</Text>

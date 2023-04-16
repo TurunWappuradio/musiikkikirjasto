@@ -8,13 +8,29 @@ const container = document.getElementById('root');
 
 const root = ReactDOMClient.createRoot(container);
 
+const theme = {
+  colorScheme: 'dark',
+  colors: {
+    // override dark colors to change them for all components
+    dark: [
+      '#d5d7e0',
+      '#acaebf',
+      '#8c8fa3',
+      '#666980',
+      '#60A3EE',
+      '#60A3EE',
+      '#002447',
+      '#001326',
+      '#001C36',
+      '#0c0d21',
+    ],
+  },
+  fontFamily: 'Montserrat, sans-serif',
+};
+
 root.render(
   <React.StrictMode>
-    <MantineProvider
-      theme={{ colorScheme: 'dark' }}
-      withGlobalStyles
-      withNormalizeCSS
-    >
+    <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
       <App />
     </MantineProvider>
   </React.StrictMode>
