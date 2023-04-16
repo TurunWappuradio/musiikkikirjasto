@@ -1,3 +1,4 @@
+import React from 'react';
 import { Accordion, Group, Title, Stack, Text, List } from '@mantine/core';
 import FileTable from './FileTable';
 
@@ -88,4 +89,4 @@ const errorDescriptions = {
   UNKNOWN_SOURCE: 'Kappaleet on muusta lähteestä kuin CD-levyltä ripattu',
 };
 
-export default Submission;
+export default React.memo(Submission);

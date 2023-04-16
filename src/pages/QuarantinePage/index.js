@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Group,
   Button,
@@ -7,6 +7,7 @@ import {
   Title,
   Text,
   Checkbox,
+  Loader,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
@@ -17,14 +18,22 @@ import AcceptModal from './AcceptModal';
 const LAMBDA_URL = process.env.REACT_APP_MUSIC_LAMBDA_URL;
 
 const QuarantinePage = () => {
-  const { fetchSubmissions, submissions } = useSubmissions();
+  const { fetchSubmissions, submissions, isLoading } = useSubmissions();
 
-  const cdSubmissions = Object.values(submissions).filter(
-    ({ music_source }) => music_source === 'CD'
+  const cdSubmissions = useMemo(
+    () =>
+      Object.values(submissions).filter(
+        ({ music_source }) => music_source === 'CD'
+      ),
+    [submissions]
   );
 
-  const otherSubmissions = Object.values(submissions).filter(
-    ({ music_source }) => music_source === 'Other'
+  const otherSubmissions = useMemo(
+    () =>
+      Object.values(submissions).filter(
+        ({ music_source }) => music_source === 'Other'
+      ),
+    [submissions]
   );
 
   const [selected, setSelected] = useState(new Set());
@@ -39,19 +48,23 @@ const QuarantinePage = () => {
     fetchSubmissions();
   };
 
-  const handleCheckBoxChange = (id) => {
-    setSelected((prev) => {
-      const newState = new Set(prev);
+  const handleCheckBoxChange = useCallback(
+    (id) => {
+      return () =>
+        setSelected((prev) => {
+          const newState = new Set(prev);
 
-      if (prev.has(id)) {
-        newState.delete(id);
-      } else {
-        newState.add(id);
-      }
+          if (prev.has(id)) {
+            newState.delete(id);
+          } else {
+            newState.add(id);
+          }
 
-      return newState;
-    });
-  };
+          return newState;
+        });
+    },
+    [setSelected]
+  );
 
   return (
     <>
@@ -76,13 +89,14 @@ const QuarantinePage = () => {
           siis jotain kummallisuutta tapahtunut, joka vaatii käsin
           tarkistamisen.
         </Text>
+        {isLoading ? <Loader /> : null}
         <Accordion variant="separated">
           {cdSubmissions.map(({ id, ...rest }) => (
             <SubmissionWithCheckbox
               key={id}
               submission={{ id, ...rest }}
-              chcked={selected.has(id)}
-              onChange={() => handleCheckBoxChange(id)}
+              checked={selected.has(id)}
+              onChange={handleCheckBoxChange(id)}
             />
           ))}
         </Accordion>
@@ -94,13 +108,14 @@ const QuarantinePage = () => {
           karanteeniin, ja vaativat musiikkitiimin hyväksynnän, jotta ne voidaan
           päästää musiikkikirjastoon.
         </Text>
+        {isLoading ? <Loader /> : null}
         <Accordion variant="separated">
           {otherSubmissions.map(({ id, ...rest }) => (
             <SubmissionWithCheckbox
               key={id}
               submission={{ id, ...rest }}
-              chcked={selected.has(id)}
-              onChange={() => handleCheckBoxChange(id)}
+              checked={selected.has(id)}
+              onChange={handleCheckBoxChange(id)}
             />
           ))}
         </Accordion>
@@ -116,17 +131,22 @@ const QuarantinePage = () => {
   );
 };
 
-const SubmissionWithCheckbox = ({ submission, checked, onChange }) => (
-  <Group my=".5rem">
-    <Checkbox checked={checked} onChange={onChange} size="lg" />
-    <Submission submission={submission} />
-  </Group>
+const SubmissionWithCheckbox = React.memo(
+  ({ submission, onChange, checked }) => (
+    <Group my=".5rem">
+      <Checkbox onChange={onChange} checked={checked} size="lg" />
+      <Submission submission={submission} />
+    </Group>
+  )
 );
 
 const useSubmissions = () => {
   const [submissions, setSubmissions] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchSubmissions = async () => {
+    setIsLoading(true);
+
     const password = localStorage.getItem('session');
     const res = await fetch(LAMBDA_URL, {
       method: 'POST',
@@ -138,13 +158,14 @@ const useSubmissions = () => {
     const data = await res.json();
 
     setSubmissions(data.submissions ?? {});
+    setIsLoading(false);
   };
 
   useEffect(() => {
     fetchSubmissions();
   }, []);
 
-  return { submissions, fetchSubmissions };
+  return { submissions, fetchSubmissions, isLoading };
 };
 
 export default QuarantinePage;

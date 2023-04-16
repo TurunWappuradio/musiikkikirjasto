@@ -1,9 +1,10 @@
+import React from 'react';
 import { Title, Table, ActionIcon } from '@mantine/core';
 import { HiDownload as Download } from 'react-icons/hi';
 
 const LAMBDA_URL = process.env.REACT_APP_MUSIC_LAMBDA_URL;
 
-const FileTable = ({ files }) => {
+const FileTable = React.memo(({ files }) => {
   const rows = files.sort(compareFile).map((file) => (
     <tr key={file.id}>
       <td>{file.filename}</td>
@@ -39,7 +40,7 @@ const FileTable = ({ files }) => {
       </Table>
     </>
   );
-};
+});
 
 const DownloadButton = ({ s3_key }) => {
   const handleClick = async () => {
