@@ -22,7 +22,7 @@ const QuarantinePage = () => {
       });
       const data = await res.json();
 
-      const values = Object.values(data.submissions);
+      const values = data.submissions ? Object.values(data.submissions) : [];
       const cds = values.filter(({ music_source }) => music_source === 'CD');
       const others = values.filter(
         ({ music_source }) => music_source === 'Other'
@@ -40,7 +40,7 @@ const QuarantinePage = () => {
       <Header title="Karanteeni" />
       <Container mb={100}>
         <Title order={2} size="h3" mb={8} mt={32}>
-          CD levyltä ripatut, {cdSubmissions.length} kpl
+          CD-levyltä ripatut, {cdSubmissions.length} kpl
         </Title>
         <Text my={16}>
           Onnistuneesti Wappuradion ohjeiden mukaan ripatut CD:t menevät suoraan
