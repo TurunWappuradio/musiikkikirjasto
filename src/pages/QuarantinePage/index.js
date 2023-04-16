@@ -6,17 +6,32 @@ import {
   Accordion,
   Title,
   Text,
+  Checkbox,
 } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
 import Header from '../../components/Header';
 import Submission from './Submission';
+import AcceptModal from './AcceptModal';
 
 const LAMBDA_URL = process.env.REACT_APP_MUSIC_LAMBDA_URL;
 
 const QuarantinePage = () => {
-  const { cdSubmissions, otherSubmissions } = useSubmissions();
+  const submissions = useSubmissions();
+  const cdSubmissions = Object.values(submissions).filter(
+    ({ music_source }) => music_source === 'CD'
+  );
+  const otherSubmissions = Object.values(submissions).filter(
+    ({ music_source }) => music_source === 'Other'
+  );
 
   const [selected, setSelected] = useState(new Set());
+
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const handleAcceptClick = open;
+
+  const handleModalClose = close;
 
   const handleCheckBoxChange = (id) => {
     setSelected((prev) => {
@@ -38,7 +53,9 @@ const QuarantinePage = () => {
       <Container mb={100}>
         <Group>
           <Text mr="auto">Valittu: {selected.size || '0'} kpl</Text>
-          <Button color="green">Hyväksy</Button>
+          <Button onClick={handleAcceptClick} color="green">
+            Hyväksy
+          </Button>
         </Group>
         <Title order={2} size="h3" mb={8} mt={32}>
           CD-levyltä ripatut, {cdSubmissions.length} kpl
@@ -51,7 +68,7 @@ const QuarantinePage = () => {
         </Text>
         <Accordion variant="separated">
           {cdSubmissions.map(({ id, ...rest }) => (
-            <Submission
+            <SubmissionWithCheckbox
               key={id}
               submission={{ id, ...rest }}
               chcked={selected.has(id)}
@@ -69,7 +86,7 @@ const QuarantinePage = () => {
         </Text>
         <Accordion variant="separated">
           {otherSubmissions.map(({ id, ...rest }) => (
-            <Submission
+            <SubmissionWithCheckbox
               key={id}
               submission={{ id, ...rest }}
               chcked={selected.has(id)}
@@ -78,13 +95,25 @@ const QuarantinePage = () => {
           ))}
         </Accordion>
       </Container>
+      <AcceptModal
+        opened={opened}
+        onClose={handleModalClose}
+        submissions={submissions}
+        selected={selected}
+      />
     </>
   );
 };
 
+const SubmissionWithCheckbox = ({ submission, checked, onChange }) => (
+  <Group my=".5rem">
+    <Checkbox checked={checked} onChange={onChange} size="lg" />
+    <Submission submission={submission} />
+  </Group>
+);
+
 const useSubmissions = () => {
-  const [cdSubmissions, setCdSubmissions] = useState([]);
-  const [otherSubmissions, setOtherSubmissions] = useState([]);
+  const [submissions, setSubmissions] = useState({});
 
   useEffect(() => {
     const fn = async () => {
@@ -98,20 +127,13 @@ const useSubmissions = () => {
       });
       const data = await res.json();
 
-      const values = data.submissions ? Object.values(data.submissions) : [];
-      const cds = values.filter(({ music_source }) => music_source === 'CD');
-      const others = values.filter(
-        ({ music_source }) => music_source === 'Other'
-      );
-
-      setCdSubmissions(cds);
-      setOtherSubmissions(others);
+      setSubmissions(data.submissions ?? {});
     };
 
     fn();
   }, []);
 
-  return { cdSubmissions, otherSubmissions };
+  return submissions;
 };
 
 export default QuarantinePage;

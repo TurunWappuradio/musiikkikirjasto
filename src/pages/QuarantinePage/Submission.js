@@ -1,40 +1,29 @@
-import {
-  Accordion,
-  Group,
-  Title,
-  Stack,
-  Text,
-  List,
-  Checkbox,
-} from '@mantine/core';
+import { Accordion, Group, Title, Stack, Text, List } from '@mantine/core';
 import FileTable from './FileTable';
 
-const Submission = ({ submission, checked, onChange }) => {
+const Submission = ({ submission }) => {
   const { id, ripper_name, files, validation_error } = submission;
 
   const audiofile = files.find((file) => file?.metadata?.album);
   const { album, artist } = audiofile?.metadata ?? {};
 
   return (
-    <Group my=".5rem">
-      <Checkbox checked={checked} onChange={onChange} size="lg" />
-      <Accordion.Item value={id.toString()} sx={{ flex: 1 }}>
-        <Accordion.Control>
-          <Group grow>
-            <Title order={3} size="h4">
-              {artist} - {album}
-            </Title>
-            <Text>{ripper_name}</Text>
-            <Text>{files.length} tiedostoa</Text>
-          </Group>
-        </Accordion.Control>
-        <Accordion.Panel>
-          <SubmissionInfo submission={submission} />
-          <ValidationErrors errors={validation_error} />
-          <FileTable files={files} />
-        </Accordion.Panel>
-      </Accordion.Item>
-    </Group>
+    <Accordion.Item value={id.toString()} sx={{ flex: 1 }}>
+      <Accordion.Control>
+        <Group grow>
+          <Title order={3} size="h4">
+            {artist} - {album}
+          </Title>
+          <Text>{ripper_name}</Text>
+          <Text>{files.length} tiedostoa</Text>
+        </Group>
+      </Accordion.Control>
+      <Accordion.Panel>
+        <SubmissionInfo submission={submission} />
+        <ValidationErrors errors={validation_error} />
+        <FileTable files={files} />
+      </Accordion.Panel>
+    </Accordion.Item>
   );
 };
 

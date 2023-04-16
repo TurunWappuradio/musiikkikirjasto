@@ -53,3 +53,8 @@ h1 {
 a {
   color: $colorOrange;
 }
+
+// fix Mantine modals going off screen.
+.mantine-Modal-inner {
+  left: 0;
+}
