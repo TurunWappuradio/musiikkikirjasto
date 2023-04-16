@@ -5,7 +5,7 @@ const LAMBDA_URL = process.env.REACT_APP_MUSIC_LAMBDA_URL;
 
 const Header = ({ title }) => {
   const session = localStorage.getItem('session');
-  const isAdmin = session && session != '';
+  const isAdmin = session && session !== '';
 
   return (
     <>

@@ -9,10 +9,10 @@ const LAMBDA_URL = process.env.REACT_APP_MUSIC_LAMBDA_URL;
 const QuarantinePage = () => {
   const [cdSubmissions, setCdSubmissions] = useState([]);
   const [otherSubmissions, setOtherSubmissions] = useState([]);
-  const password = localStorage.getItem('session');
 
   useEffect(() => {
     const fn = async () => {
+      const password = localStorage.getItem('session');
       const res = await fetch(LAMBDA_URL, {
         method: 'POST',
         body: JSON.stringify({
