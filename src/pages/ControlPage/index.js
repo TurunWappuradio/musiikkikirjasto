@@ -64,8 +64,9 @@ const ControlPage = () => {
       <Header title="Hallintanäkymä" />
       <div className="ControlContent">
         <p>Tervetuloa hallintanäkymään :P</p>
+        <a href="/karanteeni">Karanteeni</a>
       </div>
-      <div>
+      <div className="ControlTable">
         <Table
           columns={tableHeaders}
           data={songs}
