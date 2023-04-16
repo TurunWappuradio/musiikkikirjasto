@@ -1,46 +1,74 @@
 import { useEffect, useState } from 'react';
-import { Container, Accordion, Title, Text } from '@mantine/core';
+import {
+  Group,
+  Button,
+  Container,
+  Accordion,
+  Title,
+  Text,
+  Checkbox,
+} from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
 import Header from '../../components/Header';
 import Submission from './Submission';
+import AcceptModal from './AcceptModal';
 
 const LAMBDA_URL = process.env.REACT_APP_MUSIC_LAMBDA_URL;
 
 const QuarantinePage = () => {
-  const [cdSubmissions, setCdSubmissions] = useState([]);
-  const [otherSubmissions, setOtherSubmissions] = useState([]);
+  const { fetchSubmissions, submissions } = useSubmissions();
 
-  useEffect(() => {
-    const fn = async () => {
-      const password = localStorage.getItem('session');
-      const res = await fetch(LAMBDA_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          operation: 'admin/get-quarantined',
-          password,
-        }),
-      });
-      const data = await res.json();
+  const cdSubmissions = Object.values(submissions).filter(
+    ({ music_source }) => music_source === 'CD'
+  );
 
-      const values = Object.values(data.submissions);
-      const cds = values.filter(({ music_source }) => music_source === 'CD');
-      const others = values.filter(
-        ({ music_source }) => music_source === 'Other'
-      );
+  const otherSubmissions = Object.values(submissions).filter(
+    ({ music_source }) => music_source === 'Other'
+  );
 
-      setCdSubmissions(cds);
-      setOtherSubmissions(others);
-    };
+  const [selected, setSelected] = useState(new Set());
 
-    fn();
-  }, []);
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const handleAcceptClick = open;
+
+  const handleModalClose = () => {
+    // refetch submissions
+    close();
+    fetchSubmissions();
+  };
+
+  const handleCheckBoxChange = (id) => {
+    setSelected((prev) => {
+      const newState = new Set(prev);
+
+      if (prev.has(id)) {
+        newState.delete(id);
+      } else {
+        newState.add(id);
+      }
+
+      return newState;
+    });
+  };
 
   return (
     <>
       <Header title="Karanteeni" />
-      <Container mb={100}>
+      <Container size="80vw" px="xs" mb={100}>
+        <Group>
+          <Text mr="auto">Valittu: {selected.size || '0'} kpl</Text>
+          <Button
+            onClick={handleAcceptClick}
+            disabled={selected.size === 0}
+            color="green"
+          >
+            Hyväksy
+          </Button>
+        </Group>
         <Title order={2} size="h3" mb={8} mt={32}>
-          CD levyltä ripatut, {cdSubmissions.length} kpl
+          CD-levyltä ripatut, {cdSubmissions.length} kpl
         </Title>
         <Text my={16}>
           Onnistuneesti Wappuradion ohjeiden mukaan ripatut CD:t menevät suoraan
@@ -49,8 +77,13 @@ const QuarantinePage = () => {
           tarkistamisen.
         </Text>
         <Accordion variant="separated">
-          {cdSubmissions.map((submission) => (
-            <Submission key={submission.id} submission={submission} />
+          {cdSubmissions.map(({ id, ...rest }) => (
+            <SubmissionWithCheckbox
+              key={id}
+              submission={{ id, ...rest }}
+              chcked={selected.has(id)}
+              onChange={() => handleCheckBoxChange(id)}
+            />
           ))}
         </Accordion>
         <Title order={2} size="h3" mt={32} mb={8}>
@@ -62,13 +95,56 @@ const QuarantinePage = () => {
           päästää musiikkikirjastoon.
         </Text>
         <Accordion variant="separated">
-          {otherSubmissions.map((submission) => (
-            <Submission key={submission.id} submission={submission} />
+          {otherSubmissions.map(({ id, ...rest }) => (
+            <SubmissionWithCheckbox
+              key={id}
+              submission={{ id, ...rest }}
+              chcked={selected.has(id)}
+              onChange={() => handleCheckBoxChange(id)}
+            />
           ))}
         </Accordion>
       </Container>
+      <AcceptModal
+        opened={opened}
+        onClose={handleModalClose}
+        submissions={submissions}
+        selected={selected}
+        clearSelected={() => setSelected(new Set())}
+      />
     </>
   );
+};
+
+const SubmissionWithCheckbox = ({ submission, checked, onChange }) => (
+  <Group my=".5rem">
+    <Checkbox checked={checked} onChange={onChange} size="lg" />
+    <Submission submission={submission} />
+  </Group>
+);
+
+const useSubmissions = () => {
+  const [submissions, setSubmissions] = useState({});
+
+  const fetchSubmissions = async () => {
+    const password = localStorage.getItem('session');
+    const res = await fetch(LAMBDA_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        operation: 'admin/get-quarantined',
+        password,
+      }),
+    });
+    const data = await res.json();
+
+    setSubmissions(data.submissions ?? {});
+  };
+
+  useEffect(() => {
+    fetchSubmissions();
+  }, []);
+
+  return { submissions, fetchSubmissions };
 };
 
 export default QuarantinePage;

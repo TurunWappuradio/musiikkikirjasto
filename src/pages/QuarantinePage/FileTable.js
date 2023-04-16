@@ -1,4 +1,7 @@
-import { Title, Table } from '@mantine/core';
+import { Title, Table, ActionIcon } from '@mantine/core';
+import { HiDownload as Download } from 'react-icons/hi';
+
+const LAMBDA_URL = process.env.REACT_APP_MUSIC_LAMBDA_URL;
 
 const FileTable = ({ files }) => {
   const rows = files.sort(compareFile).map((file) => (
@@ -7,7 +10,11 @@ const FileTable = ({ files }) => {
       <td>{file?.metadata?.title ?? '–'}</td>
       <td>{file?.metadata?.artist ?? '–'}</td>
       <td>{file?.metadata?.album ?? '–'}</td>
+      <td>{file?.metadata?.year ?? '–'}</td>
       <td>{formatLength(file?.metadata?.length)}</td>
+      <td>
+        <DownloadButton s3_key={file.s3_key} />
+      </td>
     </tr>
   ));
 
@@ -23,12 +30,38 @@ const FileTable = ({ files }) => {
             <th>Kappale</th>
             <th>Artisti</th>
             <th>Albumi</th>
+            <th>Vuosi</th>
             <th>Kesto</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
       </Table>
     </>
+  );
+};
+
+const DownloadButton = ({ s3_key }) => {
+  const handleClick = async () => {
+    const password = localStorage.getItem('session');
+    const res = await fetch(LAMBDA_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        operation: 'admin/get-download-link',
+        password,
+        s3_key,
+      }),
+    });
+
+    const { downloadURL } = await res.json();
+
+    window.open(downloadURL);
+  };
+
+  return (
+    <ActionIcon onClick={handleClick}>
+      <Download size="1.1rem" />
+    </ActionIcon>
   );
 };
 
@@ -64,7 +97,7 @@ const compareFile = (a, b) => {
 };
 
 const formatLength = (length) => {
-  if (!length) return '-';
+  if (!length) return '–';
 
   const sec_num = parseInt(length);
   const minutes = Math.floor(sec_num / 60);
