@@ -37,7 +37,6 @@
         margin-left: auto;
 
         .columnNames {
-          color: #ee6b60;
           text-align: start;
           padding: 0.8rem 2rem;
           flex: 1;
@@ -51,6 +50,21 @@
 
           &:last-child {
             max-width: 130px;
+          }
+
+          > button {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: #ee6b60;
+            background-color: transparent;
+            border: none;
+            padding: 0;
+
+            > svg {
+              margin-left: 0.5rem;
+              margin-bottom: 0.2rem;
+            }
           }
         }
       }

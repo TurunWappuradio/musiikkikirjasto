@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import { useTable } from 'react-table';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import './TableStyle.scss';
+import { BiSortUp } from 'react-icons/bi';
 
 const Table = ({
   columns,
@@ -10,6 +11,8 @@ const Table = ({
   children,
   ref,
   hiddenColumns = [],
+  onHeaderClick,
+  orderBy,
 }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
@@ -28,11 +31,16 @@ const Table = ({
               className="columnNamesBox"
               {...headerGroup.getHeaderGroupProps()}
             >
-              {headerGroup.headers.map((column) => (
-                <div className="columnNames" {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                </div>
-              ))}
+              {headerGroup.headers.map((column) => {
+                return (
+                  <div className="columnNames" {...column.getHeaderProps()}>
+                    <button onClick={() => onHeaderClick(column.id)}>
+                      {column.render('Header')}
+                      {orderBy === column.id ? <BiSortUp /> : null}
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           ))}
         </div>

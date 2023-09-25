@@ -14,14 +14,16 @@ const MusicLibrary = () => {
   const [scrollPos, setScrollPos] = useState(0);
   const [direction, setDirection] = useState('up');
 
+  const [orderBy, setOrderBy] = useState(null);
+
   useEffect(() => {
     const f = async () => setTracklist(await getSongs());
     f();
   }, []);
 
   useEffect(() => {
-    setTracks(getRows(tracklist, 0, searchTerm));
-  }, [tracklist, searchTerm]);
+    setTracks(getRows(tracklist, 0, searchTerm, orderBy));
+  }, [tracklist, searchTerm, orderBy]);
 
   const onScroll = useCallback(
     (ev) => {
@@ -39,7 +41,7 @@ const MusicLibrary = () => {
   }, [onScroll]);
 
   const update = () => {
-    const newTracks = getRows(tracklist, tracks.length, searchTerm);
+    const newTracks = getRows(tracklist, tracks.length, searchTerm, orderBy);
     setTracks([...tracks, ...newTracks]);
   };
 
@@ -69,6 +71,8 @@ const MusicLibrary = () => {
         data={tracks}
         update={update}
         hiddenColumns={isMobile ? ['length'] : []}
+        onHeaderClick={setOrderBy}
+        orderBy={orderBy}
       >
         <Input
           placeholder="Suodata kappaleita"
