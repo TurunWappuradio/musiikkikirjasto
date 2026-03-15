@@ -28,7 +28,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,graphql,css,scss}\""
+    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,graphql,css,scss}\"",
+    "gen-test-data": "node generateTestData.js"
   },
   "eslintConfig": {
     "extends": [
@@ -47,5 +48,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "dotenv": "^17.3.1",
+    "node-fetch": "^2.7.0",
+    "node-id3": "^0.2.9"
   }
 }
