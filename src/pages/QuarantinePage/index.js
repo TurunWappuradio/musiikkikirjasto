@@ -59,6 +59,14 @@ const QuarantinePage = () => {
       <Container size="80vw" px="xs" mb={100}>
         <Group>
           <Text mr="auto">Valittu: {selected.size || '0'} kpl</Text>
+          {process.env.NODE_ENV === 'development' && (
+            <Button
+              variant="outline"
+              onClick={() => setSelected(new Set(Object.keys(submissions)))}
+            >
+              Valitse kaikki (Dev)
+            </Button>
+          )}
           <Button
             onClick={handleAcceptClick}
             disabled={selected.size === 0}
